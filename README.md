@@ -42,7 +42,7 @@ npm run dev
 ---
 title: "새로운 포스트"
 date: "2024-12-01"
-tags: "태그"
+category: "태그"
 ---
 
 # 포스트 내용
@@ -81,7 +81,7 @@ Tailwind CSS 클래스를 사용하여 스타일을 커스터마이징할 수 �
 
 -   `title`: 포스트 제목
 -   `date`: 발행 날짜 (YYYY-MM-DD)
--   `tags`: 태그 (문자열)
+-   `category`: 카테고리 (문자열)
 
 ## 📦 빌드 및 배포
 

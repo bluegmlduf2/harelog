@@ -29,7 +29,7 @@ export async function GET() {
           <link>${baseUrl}/posts/${post.slug}</link>
           <guid isPermaLink="true">${baseUrl}/posts/${post.slug}</guid>
           <author>HareLog</author>
-          ${post.tags ? `<category>${post.tags}</category>` : ""}
+          ${post.category ? `<category>${post.category}</category>` : ""}
         </item>
       `;
         })

@@ -13,7 +13,7 @@ export function generateBlogPostingSchema(post: Post, url: string) {
         datePublished: post.date,
         dateModified: post.date,
         url: url,
-        keywords: post.tags ? [post.tags] : [],
+        keywords: post.category || "",
         articleBody: post.content,
         publisher: {
             "@type": "Organization",

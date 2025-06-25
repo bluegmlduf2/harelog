@@ -39,10 +39,7 @@ function fixMarkdownFiles() {
                       (parsed.data.excerpt.length > 100 ? "..." : "")
                     : "",
                 author: parsed.data.author || "HareLog",
-                tags:
-                    parsed.data.tags || parsed.data.category
-                        ? [parsed.data.category]
-                        : ["기타"],
+                category: parsed.data.category || "기타",
             };
 
             // 새로운 파일 내용 생성

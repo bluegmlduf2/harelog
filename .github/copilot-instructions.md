@@ -35,7 +35,7 @@ title: "포스트 제목"
 date: "YYYY-MM-DD"
 excerpt: "포스트 요약"
 author: "작성자"
-tags: ["태그1", "태그2"]
+category: "카테고리"
 ---
 
 # 포스트 내용
