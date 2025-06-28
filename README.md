@@ -1,4 +1,4 @@
-# 🐰 HareLog - Next.js Markdown Blog
+# HareLog - Next.js Markdown Blog
 
 Next.js와 Tailwind CSS를 사용한 마크다운 기반 블로그입니다.
 

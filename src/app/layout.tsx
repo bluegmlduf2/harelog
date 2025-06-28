@@ -14,20 +14,25 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
     title: {
-        default: "🐰 HareLog",
+        default: "HareLog",
         template: "%s | HareLog",
     },
-    description: "Next.js와 Tailwind CSS로 만든 마크다운 기반 개발 블로그",
+    description: "개발 블로그 및 일상생활 기록을 위한 공간",
     keywords: [
         "Next.js",
         "React",
+        "Vue.js",
+        "CSS",
+        "HTML",
+        "Javascript",
         "TypeScript",
         "Tailwind CSS",
-        "마크다운",
+        "Lalavel",
+        "일본생활",
         "블로그",
         "개발",
     ],
-    authors: [{ name: "HareLog" }],
+    authors: [{ name: "Hare" }],
     creator: "HareLog",
     publisher: "HareLog",
     formatDetection: {
@@ -70,14 +75,14 @@ export const metadata: Metadata = {
         type: "website",
         locale: "ko_KR",
         url: "/",
-        title: "🐰 HareLog",
-        description: "Next.js와 Tailwind CSS로 만든 마크다운 기반 개발 블로그",
+        title: "HareLog",
+        description: "개발 블로그 및 일상생활 기록을 위한 공간",
         siteName: "HareLog",
     },
     twitter: {
         card: "summary_large_image",
-        title: "🐰 HareLog",
-        description: "Next.js와 Tailwind CSS로 만든 마크다운 기반 개발 블로그",
+        title: "HareLog",
+        description: "개발 블로그 및 일상생활 기록을 위한 공간",
     },
     robots: {
         index: true,

@@ -39,11 +39,11 @@ export async function GET() {
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>HareLog</title>
-    <description>Next.js와 Tailwind CSS로 만든 마크다운 기반 개발 블로그</description>
+    <description>개발 블로그 및 일상생활 기록을 위한 공간</description>
     <link>${baseUrl}</link>
     <language>ko-KR</language>
-    <managingEditor>harelog@example.com (HareLog)</managingEditor>
-    <webMaster>harelog@example.com (HareLog)</webMaster>
+    <managingEditor>hare</managingEditor>
+    <webMaster>hare</webMaster>
     <lastBuildDate>${new Date().toUTCString()}</lastBuildDate>
     <atom:link href="${baseUrl}/feed" rel="self" type="application/rss+xml"/>
     ${rssItems}

@@ -33,8 +33,6 @@
 ---
 title: "포스트 제목"
 date: "YYYY-MM-DD"
-excerpt: "포스트 요약"
-author: "작성자"
 category: "카테고리"
 ---
 

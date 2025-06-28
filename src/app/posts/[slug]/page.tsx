@@ -92,7 +92,7 @@ export default async function PostPage({ params }: PostPageProps) {
                                     href="/"
                                     className="hover:text-blue-600 transition-colors"
                                 >
-                                    ← 홈으로
+                                    홈으로
                                 </Link>
                             </nav>
                         </div>
@@ -158,7 +158,7 @@ export default async function PostPage({ params }: PostPageProps) {
                                 href="/"
                                 className="inline-flex items-center px-6 py-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-lg hover:from-blue-700 hover:to-purple-700 transition-all duration-200 shadow-md hover:shadow-lg transform hover:-translate-y-0.5 font-medium"
                             >
-                                ← 모든 포스트 보기
+                                모든 포스트 보기
                             </Link>
                         </div>
                     </article>

@@ -4,21 +4,18 @@ import { generateWebsiteSchema, generateBlogSchema } from "@/lib/seo";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-    title: "홈 - Next.js 마크다운 블로그",
-    description:
-        "Next.js와 Tailwind CSS로 만든 마크다운 기반 개발 블로그입니다. 웹 개발, TypeScript, React에 대한 글들을 공유합니다.",
+    title: "HareLog",
+    description: "개발 블로그 및 일상생활 기록을 위한 공간",
     openGraph: {
-        title: "🐰 HareLog - Next.js 마크다운 블로그",
-        description:
-            "Next.js와 Tailwind CSS로 만든 마크다운 기반 개발 블로그입니다.",
+        title: "HareLog",
+        description: "개발 블로그 및 일상생활 기록을 위한 공간",
         type: "website",
         url: "/",
     },
     twitter: {
         card: "summary_large_image",
-        title: "🐰 HareLog - Next.js 마크다운 블로그",
-        description:
-            "Next.js와 Tailwind CSS로 만든 마크다운 기반 개발 블로그입니다.",
+        title: "HareLog",
+        description: "개발 블로그 및 일상생활 기록을 위한 공간",
     },
 };
 
@@ -42,10 +39,10 @@ export default function Home() {
                         <div className="flex justify-between items-center py-6">
                             <div>
                                 <h1 className="text-3xl font-bold text-gray-900">
-                                    🐰 HareLog
+                                    HareLog
                                 </h1>
                                 <p className="text-gray-600 mt-1">
-                                    마크다운으로 만드는 개발 블로그
+                                    개발 블로그 및 일상생활 기록을 위한 공간
                                 </p>
                             </div>
                         </div>
@@ -84,7 +81,7 @@ export default function Home() {
                                             {post.category && (
                                                 <div className="flex flex-wrap gap-2 mb-4">
                                                     <span className="inline-block bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded-full">
-                                                        #{post.category}
+                                                        {post.category}
                                                     </span>
                                                 </div>
                                             )}
@@ -92,7 +89,7 @@ export default function Home() {
                                                 href={`/posts/${post.slug}`}
                                                 className="text-blue-600 hover:text-blue-800 text-sm font-medium"
                                             >
-                                                더 읽기 →
+                                                더보기
                                             </Link>
                                         </div>
                                     </article>

@@ -1,7 +1,7 @@
 {
-    "name": "HareLog - 마크다운 블로그",
+    "name": "HareLog",
     "short_name": "HareLog",
-    "description": "Next.js와 Tailwind CSS로 만든 마크다운 기반 개발 블로그",
+    "description": "개발 블로그 및 일상생활 기록을 위한 공간",
     "start_url": "/",
     "display": "standalone",
     "background_color": "#ffffff",
@@ -33,7 +33,7 @@
             "purpose": "any"
         }
     ],
-    "categories": ["productivity", "utilities", "lifestyle"],
+    "categories": ["javascript", "lifestyle"],
     "lang": "ko",
     "dir": "ltr"
 }
