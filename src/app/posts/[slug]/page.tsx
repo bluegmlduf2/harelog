@@ -3,6 +3,7 @@ import { getAllPosts, getPostBySlug, markdownToHtml } from "@/lib/posts";
 import { generateBlogPostingSchema } from "@/lib/seo";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
+import { formatKoreanDate } from "@/lib/date";
 
 interface PostPageProps {
     params: Promise<{
@@ -113,9 +114,7 @@ export default async function PostPage({ params }: PostPageProps) {
                                             className="flex items-center"
                                         >
                                             <span className="inline-block w-2 h-2 bg-blue-500 rounded-full mr-2"></span>
-                                            {new Date(
-                                                post.date
-                                            ).toLocaleDateString("ko-KR")}
+                                            {formatKoreanDate(post.date)}
                                         </time>
                                         {post.category && (
                                             <span className="inline-block bg-gradient-to-r from-blue-500 to-purple-600 text-white text-xs px-3 py-1 rounded-full font-medium shadow-sm">

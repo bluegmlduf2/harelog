@@ -2,6 +2,7 @@ import Link from "next/link";
 import { getAllPosts } from "@/lib/posts";
 import { generateWebsiteSchema, generateBlogSchema } from "@/lib/seo";
 import type { Metadata } from "next";
+import { formatKoreanDate } from "@/lib/date";
 
 export const metadata: Metadata = {
     title: "HareLog",
@@ -63,10 +64,8 @@ export default function Home() {
                                         <div className="p-6">
                                             <div className="flex items-center text-sm text-gray-500 mb-2">
                                                 <time dateTime={post.date}>
-                                                    {new Date(
+                                                    {formatKoreanDate(
                                                         post.date
-                                                    ).toLocaleDateString(
-                                                        "ko-KR"
                                                     )}
                                                 </time>
                                             </div>
@@ -105,9 +104,21 @@ export default function Home() {
                                     About
                                 </h3>
                                 <p className="text-gray-600 text-sm leading-relaxed">
-                                    안녕하세요! Next.js와 Tailwind CSS로 만든
-                                    마크다운 기반 블로그입니다. 개발, 기술,
-                                    그리고 일상에 대한 이야기들을 공유합니다.
+                                    I am working as a programmer in Japan <br />
+                                    I mainly use the languages and frameworks
+                                    listed below, and I have a keen interest in
+                                    them <br />
+                                    And this web page is built with Next.js 😀{" "}
+                                    <br />
+                                    <br />
+                                    - JAVASCRIPT
+                                    <br />
+                                    - VUEJS <br />
+                                    - PHP <br />
+                                    - LARAVEL <br />
+                                    - PYTHON <br />
+                                    - FLASK
+                                    <br />
                                 </p>
                             </div>
 
@@ -126,9 +137,7 @@ export default function Home() {
                                                 {post.title}
                                             </Link>
                                             <p className="text-xs text-gray-500 mt-1">
-                                                {new Date(
-                                                    post.date
-                                                ).toLocaleDateString("ko-KR")}
+                                                {formatKoreanDate(post.date)}
                                             </p>
                                         </div>
                                     ))}
