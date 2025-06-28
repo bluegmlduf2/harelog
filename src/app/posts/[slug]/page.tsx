@@ -85,7 +85,7 @@ export default async function PostPage({ params }: PostPageProps) {
                                 href="/"
                                 className="text-2xl font-bold text-gray-900 hover:text-blue-600 transition-colors"
                             >
-                                🐰 HareLog
+                                HareLog
                             </Link>
                             <nav className="text-sm text-gray-600">
                                 <Link
@@ -100,11 +100,11 @@ export default async function PostPage({ params }: PostPageProps) {
                 </header>
 
                 {/* Main Content */}
-                <main className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+                <main className="max-w-6xl mx-auto lg:px-8 max-lg:pb-8 lg:py-8">
                     {/* Article */}
                     <article>
                         <div className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow">
-                            <div className="p-8">
+                            <div className="p-4 lg:p-8">
                                 {/* Article Header */}
                                 <header className="mb-8 border-b border-gray-200 pb-6">
                                     <div className="flex items-center justify-between text-sm text-gray-500 mb-4">
@@ -119,7 +119,7 @@ export default async function PostPage({ params }: PostPageProps) {
                                         </time>
                                         {post.category && (
                                             <span className="inline-block bg-gradient-to-r from-blue-500 to-purple-600 text-white text-xs px-3 py-1 rounded-full font-medium shadow-sm">
-                                                #{post.category}
+                                                {post.category}
                                             </span>
                                         )}
                                     </div>
@@ -130,7 +130,7 @@ export default async function PostPage({ params }: PostPageProps) {
 
                                 {/* Article Content */}
                                 <div
-                                    className="prose prose-lg max-w-none 
+                                    className="prose max-w-none 
                                     prose-headings:text-gray-900 prose-headings:font-bold
                                     prose-h1:text-3xl prose-h1:border-b prose-h1:border-gray-200 prose-h1:pb-3 prose-h1:mb-6
                                     prose-h2:text-2xl prose-h2:mt-8 prose-h2:mb-4 prose-h2:text-blue-700
@@ -138,12 +138,12 @@ export default async function PostPage({ params }: PostPageProps) {
                                     prose-p:text-gray-700 prose-p:leading-relaxed prose-p:mb-4
                                     prose-a:text-blue-600 prose-a:no-underline hover:prose-a:underline prose-a:font-medium
                                     prose-strong:text-gray-900 prose-strong:font-semibold
-                                    prose-code:text-white prose-code:bg-none prose-code:px-2 prose-code:py-1 prose-code:rounded prose-code:text-sm prose-code:font-mono
-                                    prose-pre:bg-gray-900 prose-pre:text-gray-100 prose-pre:rounded-lg prose-pre:p-4 prose-pre:overflow-x-auto
-                                    prose-blockquote:border-l-4 prose-blockquote:border-blue-500 prose-blockquote:bg-blue-50 prose-blockquote:p-4 prose-blockquote:rounded-r
-                                    prose-ul:space-y-2 prose-ol:space-y-2
+                                    prose-code:text-pink-500 prose-code:bg-pink-100 prose-code:px-1 prose-code:py-0.5 prose-code:rounded prose-code:text-sm prose-code:font-mono
+                                    prose-pre:bg-gray-900 prose-pre:text-gray-100 prose-pre:rounded-lg prose-pre:p-4 prose-pre:overflow-x-auto prose-ul:space-y-2 prose-ol:space-y-2
                                     prose-li:text-gray-700
-                                    prose-img:rounded-lg prose-img:shadow-md prose-img:mx-auto
+                                    prose-img:rounded-lg prose-img:shadow-md
+                                    [&_pre_code]:text-gray-100
+                                    [&_pre_code]:bg-gray-900
                                     "
                                     dangerouslySetInnerHTML={{
                                         __html: content,

@@ -38,7 +38,7 @@ export async function GET() {
     const rssFeed = `<?xml version="1.0" encoding="UTF-8" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>🐰 HareLog</title>
+    <title>HareLog</title>
     <description>Next.js와 Tailwind CSS로 만든 마크다운 기반 개발 블로그</description>
     <link>${baseUrl}</link>
     <language>ko-KR</language>
