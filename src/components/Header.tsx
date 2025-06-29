@@ -23,7 +23,7 @@ export default function Header() {
                             <h1 className="text-3xl font-bold text-gray-900">
                                 HareLog
                             </h1>
-                            <p className="text-gray-600 mt-1">
+                            <p className="text-gray-600 mt-1 text-sm lg:text-base">
                                 개발 블로그 및 일상생활 기록을 위한 공간
                             </p>
                         </div>
