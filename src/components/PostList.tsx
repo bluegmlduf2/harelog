@@ -108,6 +108,13 @@ export default function PostList({
                             <time dateTime={post.date}>
                                 {formatKoreanDate(post.date)}
                             </time>
+                            {post.category && (
+                                <div className="flex flex-wrap gap-2">
+                                    <span className="inline-block bg-blue-100 text-blue-800 text-xs px-2 ml-2 rounded-full">
+                                        {post.category}
+                                    </span>
+                                </div>
+                            )}
                         </div>
                         <h2 className="text-xl font-bold text-gray-900 mb-3">
                             <Link
@@ -117,13 +124,6 @@ export default function PostList({
                                 {post.title}
                             </Link>
                         </h2>
-                        {post.category && (
-                            <div className="flex flex-wrap gap-2 mb-4">
-                                <span className="inline-block bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded-full">
-                                    {post.category}
-                                </span>
-                            </div>
-                        )}
                         <Link
                             href={`/posts/${post.slug}`}
                             className="text-blue-600 hover:text-blue-800 text-sm font-medium"
