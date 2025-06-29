@@ -48,9 +48,16 @@ export function getAllPosts(): Post[] {
 
 export function getPostsPaginated(
     page: number = 1,
-    limit: number = 10
+    limit: number = 10,
+    category?: string
 ): { posts: Post[]; hasMore: boolean; total: number } {
-    const allPosts = getAllPosts();
+    let allPosts = getAllPosts();
+
+    // 카테고리 필터링
+    if (category && category !== "all") {
+        allPosts = allPosts.filter((post) => post.category === category);
+    }
+
     const startIndex = (page - 1) * limit;
     const endIndex = startIndex + limit;
     const posts = allPosts.slice(startIndex, endIndex);

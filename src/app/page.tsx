@@ -1,9 +1,7 @@
-import Link from "next/link";
-import { getAllPosts, getPostsPaginated } from "@/lib/posts";
+import { getAllPosts, getPostsPaginated, getAllCategories } from "@/lib/posts";
 import { generateWebsiteSchema, generateBlogSchema } from "@/lib/seo";
 import type { Metadata } from "next";
-import { formatKoreanDate } from "@/lib/date";
-import PostList from "@/components/PostList";
+import BlogContainer from "@/components/BlogContainer";
 
 export const metadata: Metadata = {
     title: "HareLog",
@@ -27,6 +25,17 @@ export default function Home() {
         1,
         10
     );
+    const categories = getAllCategories();
+
+    // 카테고리별 포스트 수 계산
+    const postCounts = categories.reduce((counts, category) => {
+        counts[category] = allPosts.filter(
+            (post) => post.category === category
+        ).length;
+        return counts;
+    }, {} as Record<string, number>);
+    postCounts.all = allPosts.length;
+
     const websiteSchema = generateWebsiteSchema();
     const blogSchema = generateBlogSchema();
 
@@ -53,66 +62,15 @@ export default function Home() {
                             </div>
                         </div>
                     </div>
-                </header>
-
+                </header>{" "}
                 {/* Main Content */}
                 <main className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-                    <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-                        {/* Posts */}
-                        <div className="lg:col-span-2">
-                            <PostList
-                                initialPosts={initialPosts}
-                                initialHasMore={initialHasMore}
-                            />
-                        </div>
-
-                        {/* Sidebar */}
-                        <div className="space-y-8 max-md:hidden">
-                            {/* About */}
-                            <div className="bg-white rounded-lg shadow-md p-6">
-                                <h3 className="text-lg font-bold text-gray-900 mb-4">
-                                    About
-                                </h3>
-                                <p className="text-gray-600 text-sm leading-relaxed">
-                                    I am working as a programmer in Japan <br />
-                                    I mainly use the languages and frameworks
-                                    listed below, and I have a keen interest in
-                                    them <br />
-                                    And this web page is built with Next.js 😀{" "}
-                                    <br />
-                                    <br />
-                                    - JAVASCRIPT
-                                    <br />
-                                    - VUEJS <br />
-                                    - PHP <br />
-                                    - LARAVEL <br />
-                                    <br />
-                                </p>
-                            </div>
-
-                            {/* Recent Posts */}
-                            <div className="bg-white rounded-lg shadow-md p-6 max-md:hidden">
-                                <h3 className="text-lg font-bold text-gray-900 mb-4">
-                                    Recent Posts
-                                </h3>
-                                <div className="space-y-3">
-                                    {allPosts.slice(0, 5).map((post) => (
-                                        <div key={post.slug}>
-                                            <Link
-                                                href={`/posts/${post.slug}`}
-                                                className="text-sm text-gray-700 hover:text-blue-600 transition-colors line-clamp-2"
-                                            >
-                                                {post.title}
-                                            </Link>
-                                            <p className="text-xs text-gray-500 mt-1">
-                                                {formatKoreanDate(post.date)}
-                                            </p>
-                                        </div>
-                                    ))}
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    <BlogContainer
+                        initialPosts={initialPosts}
+                        initialHasMore={initialHasMore}
+                        categories={categories}
+                        postCounts={postCounts}
+                    />
                 </main>
             </div>
         </>
