@@ -67,7 +67,7 @@ export default function Home() {
                         </div>
 
                         {/* Sidebar */}
-                        <div className="space-y-8">
+                        <div className="space-y-8 max-md:hidden">
                             {/* About */}
                             <div className="bg-white rounded-lg shadow-md p-6">
                                 <h3 className="text-lg font-bold text-gray-900 mb-4">
@@ -86,14 +86,12 @@ export default function Home() {
                                     - VUEJS <br />
                                     - PHP <br />
                                     - LARAVEL <br />
-                                    - PYTHON <br />
-                                    - FLASK
                                     <br />
                                 </p>
                             </div>
 
                             {/* Recent Posts */}
-                            <div className="bg-white rounded-lg shadow-md p-6">
+                            <div className="bg-white rounded-lg shadow-md p-6 max-md:hidden">
                                 <h3 className="text-lg font-bold text-gray-900 mb-4">
                                     Recent Posts
                                 </h3>
