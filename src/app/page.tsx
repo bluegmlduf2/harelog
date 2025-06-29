@@ -2,7 +2,7 @@ import { getAllPosts, getPostsPaginated, getAllCategories } from "@/lib/posts";
 import { generateWebsiteSchema, generateBlogSchema } from "@/lib/seo";
 import type { Metadata } from "next";
 import BlogContainer from "@/components/BlogContainer";
-import HomeHeader from "@/components/HomeHeader";
+import Header from "@/components/Header";
 
 export const metadata: Metadata = {
     title: "HareLog",
@@ -50,7 +50,7 @@ export default function Home() {
             />
             <div className="min-h-screen bg-gray-50">
                 {/* Header */}
-                <HomeHeader />
+                <Header />
                 {/* Main Content */}
                 <main className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
                     <BlogContainer
