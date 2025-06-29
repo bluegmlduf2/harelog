@@ -1,0 +1,113 @@
+"use client";
+
+import Link from "next/link";
+import { useState, useEffect, useCallback } from "react";
+import { useInView } from "react-intersection-observer";
+import { formatKoreanDate } from "@/lib/date";
+import type { Post } from "@/lib/posts";
+
+interface PostListProps {
+    initialPosts: Post[];
+    initialHasMore: boolean;
+}
+
+export default function PostList({
+    initialPosts,
+    initialHasMore,
+}: PostListProps) {
+    const [posts, setPosts] = useState<Post[]>(initialPosts);
+    const [page, setPage] = useState(2); // 첫 페이지는 이미 로드됨
+    const [hasMore, setHasMore] = useState(initialHasMore);
+    const [loading, setLoading] = useState(false);
+
+    const { ref, inView } = useInView({
+        threshold: 0,
+        rootMargin: "50px", // 50px 전에 미리 로드
+    });
+    // useEffect 의존성에 함수가 있으면 매번 새로 생성되어 무한 렌더링 발생 가능
+    // useCallback으로 함수를 기억시켜서 무한 렌더링 방지
+    // page, loading, hasMore가 바뀔 때만 함수도 바뀜
+    const loadMorePosts = useCallback(async () => {
+        if (loading || !hasMore) return;
+
+        setLoading(true);
+        try {
+            const response = await fetch(`/api/posts?page=${page}&limit=10`);
+            const data = await response.json();
+
+            if (data.posts) {
+                setPosts((prev) => [...prev, ...data.posts]);
+                setHasMore(data.hasMore);
+                setPage((prev) => prev + 1);
+            }
+        } catch (error) {
+            console.error("Failed to load more posts:", error);
+        } finally {
+            setLoading(false);
+        }
+    }, [page, loading, hasMore]);
+
+    // 외부에 있는 함수 loadMorePosts가 변경될 수 있어 최신 함수 사용 위해 의존성에 포함 (무한 루프를 막기 위해 useCallback사용)
+    useEffect(() => {
+        if (inView && hasMore && !loading) {
+            loadMorePosts();
+        }
+    }, [inView, hasMore, loading, loadMorePosts]);
+
+    return (
+        <div className="space-y-8">
+            {posts.map((post) => (
+                <article
+                    key={post.slug}
+                    className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow"
+                >
+                    <div className="p-6">
+                        <div className="flex items-center text-sm text-gray-500 mb-2">
+                            <time dateTime={post.date}>
+                                {formatKoreanDate(post.date)}
+                            </time>
+                        </div>
+                        <h2 className="text-xl font-bold text-gray-900 mb-3">
+                            <Link
+                                href={`/posts/${post.slug}`}
+                                className="hover:text-blue-600 transition-colors"
+                            >
+                                {post.title}
+                            </Link>
+                        </h2>
+                        {post.category && (
+                            <div className="flex flex-wrap gap-2 mb-4">
+                                <span className="inline-block bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded-full">
+                                    {post.category}
+                                </span>
+                            </div>
+                        )}
+                        <Link
+                            href={`/posts/${post.slug}`}
+                            className="text-blue-600 hover:text-blue-800 text-sm font-medium"
+                        >
+                            더보기
+                        </Link>
+                    </div>
+                </article>
+            ))}
+
+            {/* 로딩 인디케이터와 스크롤 트리거 */}
+            <div ref={ref} className="flex justify-center py-8">
+                {loading && (
+                    <div className="flex items-center space-x-2">
+                        <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-blue-600"></div>
+                        <span className="text-gray-600">
+                            게시글을 불러오는 중...
+                        </span>
+                    </div>
+                )}
+                {!hasMore && posts.length > 0 && (
+                    <div className="text-gray-500 text-center">
+                        <p>모든 게시글을 불러왔습니다.</p>
+                    </div>
+                )}
+            </div>
+        </div>
+    );
+}

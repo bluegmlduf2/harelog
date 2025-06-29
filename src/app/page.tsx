@@ -1,8 +1,9 @@
 import Link from "next/link";
-import { getAllPosts } from "@/lib/posts";
+import { getAllPosts, getPostsPaginated } from "@/lib/posts";
 import { generateWebsiteSchema, generateBlogSchema } from "@/lib/seo";
 import type { Metadata } from "next";
 import { formatKoreanDate } from "@/lib/date";
+import PostList from "@/components/PostList";
 
 export const metadata: Metadata = {
     title: "HareLog",
@@ -21,7 +22,11 @@ export const metadata: Metadata = {
 };
 
 export default function Home() {
-    const posts = getAllPosts();
+    const allPosts = getAllPosts();
+    const { posts: initialPosts, hasMore: initialHasMore } = getPostsPaginated(
+        1,
+        10
+    );
     const websiteSchema = generateWebsiteSchema();
     const blogSchema = generateBlogSchema();
 
@@ -55,45 +60,10 @@ export default function Home() {
                     <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
                         {/* Posts */}
                         <div className="lg:col-span-2">
-                            <div className="space-y-8">
-                                {posts.map((post) => (
-                                    <article
-                                        key={post.slug}
-                                        className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow"
-                                    >
-                                        <div className="p-6">
-                                            <div className="flex items-center text-sm text-gray-500 mb-2">
-                                                <time dateTime={post.date}>
-                                                    {formatKoreanDate(
-                                                        post.date
-                                                    )}
-                                                </time>
-                                            </div>
-                                            <h2 className="text-xl font-bold text-gray-900 mb-3">
-                                                <Link
-                                                    href={`/posts/${post.slug}`}
-                                                    className="hover:text-blue-600 transition-colors"
-                                                >
-                                                    {post.title}
-                                                </Link>
-                                            </h2>
-                                            {post.category && (
-                                                <div className="flex flex-wrap gap-2 mb-4">
-                                                    <span className="inline-block bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded-full">
-                                                        {post.category}
-                                                    </span>
-                                                </div>
-                                            )}
-                                            <Link
-                                                href={`/posts/${post.slug}`}
-                                                className="text-blue-600 hover:text-blue-800 text-sm font-medium"
-                                            >
-                                                더보기
-                                            </Link>
-                                        </div>
-                                    </article>
-                                ))}
-                            </div>
+                            <PostList
+                                initialPosts={initialPosts}
+                                initialHasMore={initialHasMore}
+                            />
                         </div>
 
                         {/* Sidebar */}
@@ -128,7 +98,7 @@ export default function Home() {
                                     Recent Posts
                                 </h3>
                                 <div className="space-y-3">
-                                    {posts.slice(0, 5).map((post) => (
+                                    {allPosts.slice(0, 5).map((post) => (
                                         <div key={post.slug}>
                                             <Link
                                                 href={`/posts/${post.slug}`}

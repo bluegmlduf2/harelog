@@ -46,6 +46,23 @@ export function getAllPosts(): Post[] {
     });
 }
 
+export function getPostsPaginated(
+    page: number = 1,
+    limit: number = 10
+): { posts: Post[]; hasMore: boolean; total: number } {
+    const allPosts = getAllPosts();
+    const startIndex = (page - 1) * limit;
+    const endIndex = startIndex + limit;
+    const posts = allPosts.slice(startIndex, endIndex);
+    const hasMore = endIndex < allPosts.length;
+
+    return {
+        posts,
+        hasMore,
+        total: allPosts.length,
+    };
+}
+
 export function getPostBySlug(slug: string): Post {
     const fullPath = path.join(postsDirectory, `${slug}.md`);
     const fileContents = fs.readFileSync(fullPath, "utf8");
