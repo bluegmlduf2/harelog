@@ -3,6 +3,7 @@
 import { useState } from "react";
 import PostList from "./PostList";
 import CategoryFilter from "./CategoryFilter";
+import { formatKoreanDate } from "@/lib/date";
 import type { Post } from "@/lib/posts";
 
 interface BlogContainerProps {
@@ -87,9 +88,7 @@ export default function BlogContainer({
                                         {post.title}
                                     </a>
                                     <p className="text-xs text-gray-500 mt-1">
-                                        {new Date(post.date).toLocaleDateString(
-                                            "ko-KR"
-                                        )}
+                                        {formatKoreanDate(post.date)}
                                     </p>
                                 </div>
                             ))}
