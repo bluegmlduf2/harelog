@@ -4,6 +4,7 @@ import { generateBlogPostingSchema } from "@/lib/seo";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import { formatKoreanDate } from "@/lib/date";
+import Header from "@/components/Header";
 
 interface PostPageProps {
     params: Promise<{
@@ -79,26 +80,7 @@ export default async function PostPage({ params }: PostPageProps) {
             />
             <div className="min-h-screen bg-gray-50">
                 {/* Header */}
-                <header className="bg-white shadow-sm border-b">
-                    <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-                        <div className="flex justify-between items-center py-6">
-                            <Link
-                                href="/"
-                                className="text-2xl font-bold text-gray-900 hover:text-blue-600 transition-colors"
-                            >
-                                HareLog
-                            </Link>
-                            <nav className="text-sm text-gray-600">
-                                <Link
-                                    href="/"
-                                    className="hover:text-blue-600 transition-colors"
-                                >
-                                    홈으로
-                                </Link>
-                            </nav>
-                        </div>
-                    </div>
-                </header>
+                <Header />
 
                 {/* Main Content */}
                 <main className="max-w-6xl mx-auto lg:px-8 max-lg:pb-8 lg:py-8">

@@ -2,6 +2,7 @@ import { getAllPosts, getPostsPaginated, getAllCategories } from "@/lib/posts";
 import { generateWebsiteSchema, generateBlogSchema } from "@/lib/seo";
 import type { Metadata } from "next";
 import BlogContainer from "@/components/BlogContainer";
+import HomeHeader from "@/components/HomeHeader";
 
 export const metadata: Metadata = {
     title: "HareLog",
@@ -49,20 +50,7 @@ export default function Home() {
             />
             <div className="min-h-screen bg-gray-50">
                 {/* Header */}
-                <header className="bg-white shadow-sm border-b">
-                    <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-                        <div className="flex justify-between items-center py-6">
-                            <div>
-                                <h1 className="text-3xl font-bold text-gray-900">
-                                    HareLog
-                                </h1>
-                                <p className="text-gray-600 mt-1">
-                                    개발 블로그 및 일상생활 기록을 위한 공간
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                </header>{" "}
+                <HomeHeader />
                 {/* Main Content */}
                 <main className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
                     <BlogContainer
