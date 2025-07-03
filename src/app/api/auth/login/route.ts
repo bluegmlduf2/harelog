@@ -4,7 +4,7 @@ import {
     generateToken,
     checkBruteForce,
     recordLoginAttempt,
-} from "@/lib/jwt";
+} from "../../../../lib/jwt";
 
 export async function POST(request: NextRequest) {
     try {
