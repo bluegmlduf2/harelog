@@ -1,4 +1,4 @@
-import ProtectedWritePage from "../../components/ProtectedWritePage";
+import ProtectedWritePage from "@/components/ProtectedWritePage";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {

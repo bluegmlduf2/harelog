@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getPostsPaginated } from "../../../lib/posts";
-import { isAuthenticated } from "../../../lib/auth";
+import { getPostsPaginated } from "@/lib/posts";
+import { isAuthenticated } from "@/lib/auth";
 import fs from "fs";
 import path from "path";
 
