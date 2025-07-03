@@ -1,10 +1,10 @@
 import Link from "next/link";
-import { getAllPosts, getPostBySlug, markdownToHtml } from "@/lib/posts";
-import { generateBlogPostingSchema } from "@/lib/seo";
+import { getAllPosts, getPostBySlug, markdownToHtml } from "../../../lib/posts";
+import { generateBlogPostingSchema } from "../../../lib/seo";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
-import { formatKoreanDate } from "@/lib/date";
-import Header from "@/components/Header";
+import { formatKoreanDate } from "../../../lib/date";
+import Header from "../../../components/Header";
 
 interface PostPageProps {
     params: Promise<{

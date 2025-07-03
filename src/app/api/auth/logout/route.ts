@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { addTokenToBlacklist } from "@/lib/jwt";
+import { addTokenToBlacklist } from "../../../../lib/jwt";
 
 export async function POST(request: NextRequest) {
     try {

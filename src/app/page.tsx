@@ -1,8 +1,8 @@
-import { getAllPosts, getPostsPaginated, getAllCategories } from "@/lib/posts";
-import { generateWebsiteSchema, generateBlogSchema } from "@/lib/seo";
+import { getAllPosts, getPostsPaginated, getAllCategories } from "../lib/posts";
+import { generateWebsiteSchema, generateBlogSchema } from "../lib/seo";
 import type { Metadata } from "next";
-import BlogContainer from "@/components/BlogContainer";
-import Header from "@/components/Header";
+import BlogContainer from "../components/BlogContainer";
+import Header from "../components/Header";
 
 export const metadata: Metadata = {
     title: "HareLog",

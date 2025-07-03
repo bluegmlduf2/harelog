@@ -1,4 +1,4 @@
-import { getAllPosts } from "@/lib/posts";
+import { getAllPosts } from "../../lib/posts";
 
 export async function GET() {
     const posts = getAllPosts();
