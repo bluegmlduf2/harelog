@@ -3,8 +3,8 @@
 import Link from "next/link";
 import { useState, useEffect, useCallback } from "react";
 import { useInView } from "react-intersection-observer";
-import { formatKoreanDate } from "../lib/date";
-import type { Post } from "../lib/posts";
+import { formatKoreanDate } from "@/lib/date";
+import type { Post } from "@/lib/posts";
 
 interface PostListProps {
     initialPosts: Post[];

@@ -3,8 +3,8 @@
 import { useState } from "react";
 import PostList from "./PostList";
 import CategoryFilter from "./CategoryFilter";
-import { formatKoreanDate } from "../lib/date";
-import type { Post } from "../lib/posts";
+import { formatKoreanDate } from "@/lib/date";
+import type { Post } from "@/lib/posts";
 
 interface BlogContainerProps {
     initialPosts: Post[];
