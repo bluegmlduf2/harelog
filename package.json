@@ -31,13 +31,13 @@
         "@tailwindcss/typography": "^0.5.16",
         "tailwindcss": "^4",
         "typescript": "^5",
-        "@types/react": "^19"
+        "@types/react": "^19",
+        "eslint": "^9"
     },
     "devDependencies": {
         "@eslint/eslintrc": "^3",
         "@types/node": "^20",
         "@types/react-dom": "^19",
-        "eslint": "^9",
         "eslint-config-next": "15.3.4"
     }
 }
