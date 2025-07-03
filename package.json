@@ -16,6 +16,7 @@
         "@types/bcryptjs": "^2.4.6",
         "@types/jsonwebtoken": "^9.0.10",
         "@types/turndown": "^5.0.5",
+        "autoprefixer": "^10.4.21",
         "bcryptjs": "^3.0.2",
         "gray-matter": "^4.0.3",
         "jsonwebtoken": "^9.0.2",
