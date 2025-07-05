@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { useAuth } from "@/hooks/useAuth";
 
 interface DeletePostButtonProps {
     slug: string;
@@ -14,6 +15,12 @@ export default function DeletePostButton({
 }: DeletePostButtonProps) {
     const [isDeleting, setIsDeleting] = useState(false);
     const router = useRouter();
+    const { isAuthenticated, isLoading } = useAuth();
+
+    // 관리자가 아니거나 로딩 중이면 버튼을 렌더링하지 않음
+    if (isLoading || !isAuthenticated) {
+        return null;
+    }
 
     const handleDeletePost = async () => {
         if (
