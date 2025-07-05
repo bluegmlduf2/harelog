@@ -105,22 +105,13 @@ export default function WriteForm({ categories }: WriteFormProps) {
                 }),
             });
 
-            // 응답 상태 및 메시지 콘솔 출력 (디버깅용)
-            console.log("Response status:", response.status);
-            let responseBody;
-            try {
-                responseBody = await response.json();
-                console.log("Response body:", responseBody);
-                console.log("Response:", response);
-            } catch (err) {
-                responseBody = null;
-                console.log("Response body is not JSON.");
-            }
-
+            console.log("response:", response);
             if (response.ok) {
+                console.log("여기가 실행되지?0", response);
+                const result = await response.json();
                 setMessage({
                     type: "success",
-                    text: `포스트가 성공적으로 저장되었습니다! 파일: ${responseBody?.filename}`,
+                    text: `포스트가 성공적으로 저장되었습니다! 파일: ${result.filename}`,
                 });
                 // 폼 리셋
                 setTitle("");
@@ -130,16 +121,17 @@ export default function WriteForm({ categories }: WriteFormProps) {
 
                 // 임시 저장된 내용 삭제
                 localStorage.removeItem("harelog-draft");
-
+                console.log("여기가 실행되지?1", response);
                 // 3초 후 성공 메시지 자동 제거
                 setTimeout(() => {
+                    console.log("여기가 실행되지?2", response);
                     setMessage({ type: "", text: "" });
                 }, 3000);
             } else {
+                const error = await response.json();
                 setMessage({
                     type: "error",
-                    text:
-                        responseBody?.message || "포스트 저장에 실패했습니다.",
+                    text: error.message || "포스트 저장에 실패했습니다.",
                 });
             }
         } catch (error) {
