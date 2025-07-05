@@ -105,11 +105,21 @@ export default function WriteForm({ categories }: WriteFormProps) {
                 }),
             });
 
+            // 응답 상태 및 메시지 콘솔 출력 (디버깅용)
+            console.log("Response status:", response.status);
+            let responseBody;
+            try {
+                responseBody = await response.json();
+                console.log("Response body:", responseBody);
+            } catch (err) {
+                responseBody = null;
+                console.log("Response body is not JSON.");
+            }
+
             if (response.ok) {
-                const result = await response.json();
                 setMessage({
                     type: "success",
-                    text: `포스트가 성공적으로 저장되었습니다! 파일: ${result.filename}`,
+                    text: `포스트가 성공적으로 저장되었습니다! 파일: ${responseBody?.filename}`,
                 });
                 // 폼 리셋
                 setTitle("");
@@ -125,10 +135,9 @@ export default function WriteForm({ categories }: WriteFormProps) {
                     setMessage({ type: "", text: "" });
                 }, 3000);
             } else {
-                const error = await response.json();
                 setMessage({
                     type: "error",
-                    text: error.message || "포스트 저장에 실패했습니다.",
+                    text: responseBody?.message || "포스트 저장에 실패했습니다.",
                 });
             }
         } catch (error) {
