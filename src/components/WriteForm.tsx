@@ -13,6 +13,7 @@ const TiptapEditor = dynamic(() => import("./TiptapEditor"), {
 }) as React.ComponentType<{
     content: string;
     onChange: (content: string) => void;
+    onImageUpload?: (file: File) => Promise<string>;
 }>;
 
 interface WriteFormProps {
@@ -25,8 +26,11 @@ export default function WriteForm({ categories }: WriteFormProps) {
     const [customCategory, setCustomCategory] = useState("");
     const [content, setContent] = useState("");
     const [isLoading, setIsLoading] = useState(false);
+    const [isDeleting, setIsDeleting] = useState(false);
     const [message, setMessage] = useState({ type: "", text: "" });
     const [showPreview, setShowPreview] = useState(false);
+    const [showDeleteSection, setShowDeleteSection] = useState(false);
+    const [deleteSlug, setDeleteSlug] = useState("");
 
     // 로컬 스토리지에서 임시 저장된 내용 불러오기
     useEffect(() => {
@@ -62,6 +66,87 @@ export default function WriteForm({ categories }: WriteFormProps) {
             localStorage.setItem("harelog-draft", JSON.stringify(draft));
         }
     }, [title, category, customCategory, content]);
+
+    // 이미지 업로드 함수
+    const handleImageUpload = async (file: File): Promise<string> => {
+        const formData = new FormData();
+        formData.append("image", file);
+
+        try {
+            const response = await fetch("/api/upload", {
+                method: "POST",
+                body: formData,
+            });
+
+            if (!response.ok) {
+                throw new Error("이미지 업로드에 실패했습니다.");
+            }
+
+            const result = await response.json();
+            return result.url; // 업로드된 이미지의 URL 반환
+        } catch (error) {
+            console.error("Error uploading image:", error);
+            throw error;
+        }
+    };
+
+    // 게시글 삭제 함수
+    const handleDeletePost = async () => {
+        if (!deleteSlug.trim()) {
+            setMessage({
+                type: "error",
+                text: "삭제할 포스트의 슬러그를 입력해주세요.",
+            });
+            return;
+        }
+
+        if (
+            !confirm(
+                `"${deleteSlug}" 포스트를 정말 삭제하시겠습니까? 이 작업은 되돌릴 수 없습니다.`
+            )
+        ) {
+            return;
+        }
+
+        setIsDeleting(true);
+        setMessage({ type: "", text: "" });
+
+        try {
+            const response = await fetch(`/api/posts/${deleteSlug}`, {
+                method: "DELETE",
+            });
+
+            if (response.ok) {
+                setMessage({
+                    type: "success",
+                    text: `"${deleteSlug}" 포스트가 성공적으로 삭제되었습니다.`,
+                });
+                setDeleteSlug(""); // 입력 필드 초기화
+                window.scrollTo({ top: 0, behavior: "smooth" });
+
+                // 3초 후 성공 메시지 자동 제거
+                setTimeout(() => {
+                    setMessage({ type: "", text: "" });
+                }, 3000);
+            } else {
+                const error = await response.json();
+                setMessage({
+                    type: "error",
+                    text: error.error || "포스트 삭제에 실패했습니다.",
+                });
+                window.scrollTo({ top: 0, behavior: "smooth" });
+            }
+        } catch (error) {
+            console.error("Error deleting post:", error);
+            setMessage({
+                type: "error",
+                text: "포스트 삭제 중 오류가 발생했습니다.",
+            });
+            window.scrollTo({ top: 0, behavior: "smooth" });
+        } finally {
+            setIsDeleting(false);
+        }
+    };
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -245,7 +330,11 @@ export default function WriteForm({ categories }: WriteFormProps) {
                     </div>
                 ) : (
                     <div className="border border-gray-300 rounded-md overflow-hidden">
-                        <TiptapEditor content={content} onChange={setContent} />
+                        <TiptapEditor
+                            content={content}
+                            onChange={setContent}
+                            onImageUpload={handleImageUpload}
+                        />
                     </div>
                 )}
             </div>
@@ -260,6 +349,13 @@ export default function WriteForm({ categories }: WriteFormProps) {
                     {showPreview ? "에디터 보기" : "미리보기"}
                 </button>
                 <button
+                    type="button"
+                    onClick={() => setShowDeleteSection(!showDeleteSection)}
+                    className="px-6 py-2 bg-red-100 text-red-700 rounded hover:bg-red-200 transition-colors"
+                >
+                    게시글 삭제
+                </button>
+                <button
                     type="submit"
                     disabled={isLoading}
                     className={`px-6 py-2 rounded-md font-medium ${
@@ -271,6 +367,52 @@ export default function WriteForm({ categories }: WriteFormProps) {
                     {isLoading ? "저장 중..." : "포스트 저장"}
                 </button>
             </div>
+
+            {/* 게시글 삭제 섹션 */}
+            {showDeleteSection && (
+                <div className="border border-red-200 rounded-md p-4 bg-red-50">
+                    <h3 className="text-lg font-semibold text-red-800 mb-4">
+                        게시글 삭제
+                    </h3>
+                    <p className="text-red-700 mb-4">
+                        삭제하려는 게시글의 슬러그(파일명)를 입력하세요. 이
+                        작업은 되돌릴 수 없습니다.
+                    </p>
+
+                    <div className="flex gap-3">
+                        <input
+                            type="text"
+                            value={deleteSlug}
+                            onChange={(e) => setDeleteSlug(e.target.value)}
+                            placeholder="예: my-post-title"
+                            className="flex-1 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent"
+                        />
+                        <button
+                            type="button"
+                            onClick={handleDeletePost}
+                            disabled={isDeleting || !deleteSlug.trim()}
+                            className={`px-4 py-2 text-sm rounded ${
+                                isDeleting || !deleteSlug.trim()
+                                    ? "bg-gray-400 cursor-not-allowed"
+                                    : "bg-red-600 hover:bg-red-700"
+                            } text-white transition-colors`}
+                        >
+                            {isDeleting ? "삭제 중..." : "삭제"}
+                        </button>
+                    </div>
+
+                    <div className="mt-3 text-sm text-red-600">
+                        <p>
+                            💡 <strong>슬러그 확인 방법:</strong>
+                        </p>
+                        <p>
+                            • 블로그 URL에서 마지막 부분: /posts/
+                            <strong>슬러그</strong>
+                        </p>
+                        <p>• 또는 posts 폴더의 파일명에서 .md를 제외한 부분</p>
+                    </div>
+                </div>
+            )}
         </form>
     );
 }

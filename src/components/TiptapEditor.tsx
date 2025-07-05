@@ -9,9 +9,14 @@ import { useCallback, useEffect } from "react";
 interface TiptapEditorProps {
     content: string;
     onChange: (content: string) => void;
+    onImageUpload?: (file: File) => Promise<string>;
 }
 
-export default function TiptapEditor({ content, onChange }: TiptapEditorProps) {
+export default function TiptapEditor({
+    content,
+    onChange,
+    onImageUpload,
+}: TiptapEditorProps) {
     const editor = useEditor({
         extensions: [
             StarterKit,
@@ -39,13 +44,43 @@ export default function TiptapEditor({ content, onChange }: TiptapEditorProps) {
     }, [editor, content]);
 
     const addImage = useCallback(() => {
-        const url = window.prompt(
-            "이미지 URL을 입력하세요 (예: /storage/image.jpg):"
-        );
-        if (url && editor) {
-            editor.chain().focus().setImage({ src: url }).run();
-        }
-    }, [editor]);
+        // 파일 선택 input 생성
+        const input = document.createElement("input");
+        input.type = "file";
+        input.accept = "image/*";
+
+        input.onchange = async (e) => {
+            const file = (e.target as HTMLInputElement).files?.[0];
+            if (file && onImageUpload && editor) {
+                try {
+                    // 로딩 표시
+                    editor
+                        .chain()
+                        .focus()
+                        .setImage({
+                            src: "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTEyIDJDNi40NzcgMiAyIDYuNDc3IDIgMTJTNi40NzcgMjIgMTIgMjJTMjIgMTcuNTIzIDIyIDEyUzE3LjUyMyAyIDEyIDJaTTEyIDIwQzcuNTg5IDIwIDQgMTYuNDExIDQgMTJTNy41ODkgNDEyIDRTMjAgNy41ODkgMjAgMTJTMTYuNDExIDIwIDEyIDIwWiIgZmlsbD0iIzk5OTk5OSIvPgo8cGF0aCBkPSJNMTIgNkMxMS40NDc3IDYgMTEgNi40NDc3MiAxMSA3VjExSDdDNi40NDc3MiAxMSA2IDExLjQ0NzcgNiAxMkM2IDEyLjU1MjMgNi40NDc3MiAxMyA3IDEzSDExVjE3QzExIDE3LjU1MjMgMTEuNDQ3NyAxOCAxMiAxOEMxMi41NTIzIDE4IDEzIDE3LjU1MjMgMTMgMTdWMTNIMTdDMTcuNTUyMyAxMyAxOCAxMi41NTIzIDE4IDEyQzE4IDExLjQ0NzcgMTcuNTUyMyAxMSAxNyAxMUgxM1Y3QzEzIDYuNDQ3NzIgMTIuNTUyMyA2IDEyIDZaIiBmaWxsPSIjOTk5OTk5Ii8+Cjwvc3ZnPgo=",
+                            alt: "이미지 업로드 중...",
+                        })
+                        .run();
+
+                    // 이미지 업로드
+                    const imageUrl = await onImageUpload(file);
+
+                    // 플레이스홀더를 실제 이미지로 교체
+                    editor
+                        .chain()
+                        .focus()
+                        .setImage({ src: imageUrl, alt: file.name })
+                        .run();
+                } catch (error) {
+                    console.error("이미지 업로드 실패:", error);
+                    alert("이미지 업로드에 실패했습니다.");
+                }
+            }
+        };
+
+        input.click();
+    }, [editor, onImageUpload]);
 
     const setLink = useCallback(() => {
         const previousUrl = editor?.getAttributes("link").href;

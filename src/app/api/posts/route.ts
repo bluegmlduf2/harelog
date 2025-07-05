@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getPostsPaginated } from "@/lib/posts";
 import { isAuthenticated } from "@/lib/auth";
-import { createPostViaGitHubAPI } from "@/lib/github-api";
+import { uploadMarkdownPost } from "@/lib/github";
 import fs from "fs";
 import path from "path";
 
@@ -44,10 +44,6 @@ export async function POST(request: NextRequest) {
             );
         }
 
-        // 현재 날짜 생성
-        const now = new Date();
-        const dateString = now.toISOString().split("T")[0]; // YYYY-MM-DD 형식
-
         // 다음 포스트 번호 찾기
         const existingFiles = fs.readdirSync(postsDirectory);
         const postNumbers = existingFiles
@@ -60,17 +56,7 @@ export async function POST(request: NextRequest) {
 
         const nextNumber =
             postNumbers.length > 0 ? Math.max(...postNumbers) + 1 : 1;
-        const filename = `${nextNumber}.md`;
-
-        // 마크다운 frontmatter와 내용 생성
-        const markdownContent = `---
-title: "${title}"
-date: ${dateString}
-category: ${category}
----
-
-${content}
-`;
+        const slug = nextNumber.toString();
 
         // GitHub Storage 설정 확인
         if (process.env.USE_GITHUB_STORAGE !== "true") {
@@ -80,30 +66,36 @@ ${content}
             );
         }
 
-        // GitHub API를 통한 파일 저장 (응답 대기)
+        // GitHub API를 통한 파일 저장
         try {
-            await createPostViaGitHubAPI(
-                filename,
-                markdownContent,
+            const result = await uploadMarkdownPost({
+                slug,
                 title,
-                nextNumber
+                category,
+                content,
+            });
+
+            return NextResponse.json(
+                {
+                    message: "포스트가 성공적으로 저장되었습니다.",
+                    filename: result.filename,
+                    postNumber: nextNumber,
+                    url: result.url,
+                },
+                { status: 201 }
             );
         } catch (error) {
             console.error("GitHub API 작업 실패:", error);
             return NextResponse.json(
-                { message: "포스트 저장 중 GitHub API 오류가 발생했습니다." },
+                {
+                    message:
+                        error instanceof Error
+                            ? error.message
+                            : "포스트 저장 중 GitHub API 오류가 발생했습니다.",
+                },
                 { status: 500 }
             );
         }
-
-        return NextResponse.json(
-            {
-                message: "포스트가 성공적으로 저장되었습니다.",
-                filename,
-                postNumber: nextNumber,
-            },
-            { status: 201 }
-        );
     } catch (error) {
         console.error("Error saving post:", error);
         return NextResponse.json(
