@@ -72,17 +72,28 @@ category: ${category}
 ${content}
 `;
 
-        // GitHub API를 통한 파일 저장 (배포 환경에서만 사용)
-        if (process.env.USE_GITHUB_STORAGE === "true") {
-            createPostViaGitHubAPI(
+        // GitHub Storage 설정 확인
+        if (process.env.USE_GITHUB_STORAGE !== "true") {
+            return NextResponse.json(
+                { message: "포스트 저장이 비활성화되어 있습니다." },
+                { status: 403 }
+            );
+        }
+
+        // GitHub API를 통한 파일 저장 (응답 대기)
+        try {
+            await createPostViaGitHubAPI(
                 filename,
                 markdownContent,
                 title,
                 nextNumber
-            ).catch((error: Error) => {
-                console.error("GitHub API 작업 실패:", error);
-                // GitHub API 실패는 로그만 남기고 API 응답에는 영향을 주지 않습니다
-            });
+            );
+        } catch (error) {
+            console.error("GitHub API 작업 실패:", error);
+            return NextResponse.json(
+                { message: "포스트 저장 중 GitHub API 오류가 발생했습니다." },
+                { status: 500 }
+            );
         }
 
         return NextResponse.json(
