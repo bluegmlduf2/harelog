@@ -5,6 +5,7 @@ import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import { formatKoreanDate } from "@/lib/date";
 import Header from "@/components/Header";
+import DeletePostButton from "@/components/DeletePostButton";
 
 interface PostPageProps {
     params: Promise<{
@@ -134,13 +135,14 @@ export default async function PostPage({ params }: PostPageProps) {
                         </div>
 
                         {/* Navigation */}
-                        <div className="mt-8 text-center">
+                        <div className="mt-8 flex justify-center items-center gap-4">
                             <Link
                                 href="/"
                                 className="inline-flex items-center px-6 py-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-lg hover:from-blue-700 hover:to-purple-700 transition-all duration-200 shadow-md hover:shadow-lg transform hover:-translate-y-0.5 font-medium"
                             >
                                 모든 포스트 보기
                             </Link>
+                            <DeletePostButton slug={slug} title={post.title} />
                         </div>
                     </article>
                 </main>
