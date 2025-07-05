@@ -111,6 +111,7 @@ export default function WriteForm({ categories }: WriteFormProps) {
             try {
                 responseBody = await response.json();
                 console.log("Response body:", responseBody);
+                console.log("Response:", response);
             } catch (err) {
                 responseBody = null;
                 console.log("Response body is not JSON.");
@@ -137,7 +138,8 @@ export default function WriteForm({ categories }: WriteFormProps) {
             } else {
                 setMessage({
                     type: "error",
-                    text: responseBody?.message || "포스트 저장에 실패했습니다.",
+                    text:
+                        responseBody?.message || "포스트 저장에 실패했습니다.",
                 });
             }
         } catch (error) {
