@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getPostsPaginated } from "@/lib/posts";
 import { isAuthenticated } from "@/lib/auth";
+import { createPostViaGitHubAPI } from "@/lib/github-api";
 import fs from "fs";
 import path from "path";
 
@@ -71,9 +72,18 @@ category: ${category}
 ${content}
 `;
 
-        // 파일 저장
-        const filePath = path.join(postsDirectory, filename);
-        fs.writeFileSync(filePath, markdownContent, "utf8");
+        // GitHub API를 통한 파일 저장 (배포 환경에서만 사용)
+        if (process.env.USE_GITHUB_STORAGE === "true") {
+            createPostViaGitHubAPI(
+                filename,
+                markdownContent,
+                title,
+                nextNumber
+            ).catch((error: Error) => {
+                console.error("GitHub API 작업 실패:", error);
+                // GitHub API 실패는 로그만 남기고 API 응답에는 영향을 주지 않습니다
+            });
+        }
 
         return NextResponse.json(
             {

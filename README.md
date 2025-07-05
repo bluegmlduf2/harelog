@@ -17,6 +17,15 @@ Next.js와 Tailwind CSS를 사용한 마크다운 기반 블로그입니다.
 -   **Tailwind CSS** - 유틸리티 퍼스트 CSS 프레임워크
 -   **gray-matter** - 마크다운 front matter 파싱
 -   **remark** & **remark-html** - 마크다운을 HTML로 변환
+-   **GitHub API** - Git 자동 커밋 및 푸시 기능
+
+## 🎯 주요 기능
+
+-   📝 **웹 에디터** - 브라우저에서 직접 포스트 작성 및 수정
+-   🔄 **GitHub 파일 저장** - 선택적으로 GitHub에 파일 저장
+-   👨‍💻 **관리자 인증** - 안전한 포스트 관리
+-   🏷️ **카테고리 시스템** - 포스트를 카테고리별로 분류
+-   📱 **반응형 디자인** - 모든 디바이스에서 최적화된 UI
 
 ## 🚀 시작하기
 
@@ -26,13 +35,84 @@ Next.js와 Tailwind CSS를 사용한 마크다운 기반 블로그입니다.
 npm install
 ```
 
-### 2. 개발 서버 실행
+### 2. 환경 변수 설정
+
+`.env.local.example` 파일을 `.env.local`로 복사하고 필요한 값들을 설정하세요:
+
+```bash
+cp .env.local.example .env.local
+```
+
+주요 환경 변수:
+
+```env
+# 관리자 비밀번호
+ADMIN_PASSWORD=your-admin-password
+
+# JWT 비밀키
+JWT_SECRET=your-jwt-secret-key
+
+# Git 파일 저장 비활성화 (로컬 개발용)
+USE_GITHUB_STORAGE=false
+
+# Git 사용자 정보
+GIT_USER_NAME="HareLog Bot"
+GIT_USER_EMAIL="bot@harelog.com"
+```
+
+### 3. 개발 서버 실행
 
 ```bash
 npm run dev
 ```
 
 브라우저에서 [http://localhost:3000](http://localhost:3000)을 열어 결과를 확인하세요.
+
+## 🔄 Git 자동 푸시 기능
+
+HareLog는 GitHub API를 사용하여 포스트를 저장할 때 자동으로 GitHub 리포지토리에 커밋하고 푸시하는 기능을 제공합니다.
+
+### � 설정 방법
+
+#### 1. GitHub Personal Access Token 생성
+
+1. GitHub → Settings → Developer settings → Personal access tokens → Tokens (classic)
+2. 다음 권한 부여:
+    - `repo` (전체 리포지토리 접근)
+    - `contents:write` (파일 생성/수정)
+
+#### 2. 환경 변수 설정
+
+**로컬 개발 (.env.local)**
+
+```env
+GIT_AUTO_PUSH=true
+GITHUB_TOKEN=ghp_your_token_here
+GITHUB_REPOSITORY=your-username/your-repo
+GITHUB_BRANCH=main
+GIT_USER_NAME="HareLog Bot"
+GIT_USER_EMAIL="bot@harelog.com"
+```
+
+**Vercel 배포 (Environment Variables)**
+
+-   Vercel Dashboard → 프로젝트 → Settings → Environment Variables
+-   위의 환경 변수들을 모든 환경(Production, Preview, Development)에 추가
+
+### 🔧 작동 방식
+
+-   **GitHub API 사용**: 모든 환경에서 일관된 동작
+-   **자동 커밋**: 웹 에디터에서 포스트 저장 시 자동 실행
+-   **커밋 메시지**: `Add new post: {포스트 제목} (#{포스트 번호})`
+-   **자동 재배포**: GitHub 푸시 → Vercel 자동 재배포 (GitHub 연동 시)
+-   **안전한 실패**: GitHub API 실패 시에도 포스트 작성은 정상 완료
+
+### 🎯 장점
+
+-   ✅ **환경 무관**: 로컬/Vercel 모든 환경에서 동일하게 작동
+-   ✅ **간단한 설정**: 복잡한 Git 설정 불필요
+-   ✅ **안정성**: 서버리스 환경에 최적화
+-   ✅ **자동 배포**: GitHub 푸시 시 Vercel 자동 재배포
 
 ### 3. 새 포스트 작성
 
