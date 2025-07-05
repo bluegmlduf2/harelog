@@ -71,6 +71,7 @@ export default function WriteForm({ categories }: WriteFormProps) {
 
         if (!title.trim() || !finalCategory || !content.trim()) {
             setMessage({ type: "error", text: "모든 필드를 채워주세요." });
+            window.scrollTo({ top: 0, behavior: "smooth" });
             return;
         }
 
@@ -105,9 +106,7 @@ export default function WriteForm({ categories }: WriteFormProps) {
                 }),
             });
 
-            console.log("response:", response);
             if (response.ok) {
-                console.log("여기가 실행되지?0", response);
                 const result = await response.json();
                 setMessage({
                     type: "success",
@@ -121,10 +120,9 @@ export default function WriteForm({ categories }: WriteFormProps) {
 
                 // 임시 저장된 내용 삭제
                 localStorage.removeItem("harelog-draft");
-                console.log("여기가 실행되지?1", response);
+
                 // 3초 후 성공 메시지 자동 제거
                 setTimeout(() => {
-                    console.log("여기가 실행되지?2", response);
                     setMessage({ type: "", text: "" });
                 }, 3000);
             } else {
@@ -141,6 +139,8 @@ export default function WriteForm({ categories }: WriteFormProps) {
                 text: "포스트 저장 중 오류가 발생했습니다.",
             });
         } finally {
+            // 페이지 상단으로 스크롤
+            window.scrollTo({ top: 0, behavior: "smooth" });
             setIsLoading(false);
         }
     };

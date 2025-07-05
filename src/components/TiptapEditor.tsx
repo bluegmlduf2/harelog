@@ -4,7 +4,7 @@ import { useEditor, EditorContent } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import Link from "@tiptap/extension-link";
 import Image from "@tiptap/extension-image";
-import { useCallback } from "react";
+import { useCallback, useEffect } from "react";
 
 interface TiptapEditorProps {
     content: string;
@@ -30,6 +30,13 @@ export default function TiptapEditor({ content, onChange }: TiptapEditorProps) {
             },
         },
     });
+
+    // content prop이 변경될 때 에디터 내용 업데이트
+    useEffect(() => {
+        if (editor && content !== editor.getHTML()) {
+            editor.commands.setContent(content);
+        }
+    }, [editor, content]);
 
     const addImage = useCallback(() => {
         const url = window.prompt(
