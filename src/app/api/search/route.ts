@@ -89,12 +89,7 @@ export async function POST(request: NextRequest) {
             const errorMessage = error.message;
 
             // Rate limit 관련 에러 처리
-            if (
-                errorMessage.includes("Rate limit exceeded") ||
-                errorMessage.includes("rate limit") ||
-                errorMessage.includes("429") ||
-                errorMessage.includes("free-models-per-day")
-            ) {
+            if (errorMessage.includes("Too Many Requests")) {
                 return NextResponse.json(
                     {
                         error: "API 요청 한도를 초과했습니다. 잠시 후 다시 검색해주세요.",
