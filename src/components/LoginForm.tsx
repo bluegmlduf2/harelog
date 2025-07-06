@@ -31,7 +31,7 @@ export default function LoginForm() {
 
             if (response.ok) {
                 // 로그인 성공시 글쓰기 페이지로 리다이렉트
-                router.push("/write");
+                router.push("/");
             } else {
                 const result = await response.json();
                 setError(result.error || "로그인에 실패했습니다.");
