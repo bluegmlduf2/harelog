@@ -31,3 +31,19 @@ body {
 .prose code::after {
     content: none;
 }
+
+/* Input, textarea, select 스타일 */
+
+select,
+input,
+textarea {
+    color: #374151; /* gray-700 - 입력된 텍스트는 진하게 */
+}
+
+/* Placeholder 스타일 - 더 연하게 */
+select::placeholder,
+input::placeholder,
+textarea::placeholder {
+    color: #9ca3af; /* gray-400 - placeholder는 연하게 */
+    opacity: 1;
+}

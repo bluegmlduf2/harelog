@@ -57,7 +57,7 @@ export default function DeletePostButton({
         <button
             onClick={handleDeletePost}
             disabled={isDeleting}
-            className={`inline-flex items-center px-4 py-2 text-sm rounded-lg font-medium transition-all duration-200 shadow-md hover:shadow-lg transform hover:-translate-y-0.5 ${
+            className={`inline-flex items-center px-6 py-3 text-md rounded-lg font-medium transition-all duration-200 shadow-md hover:shadow-lg transform hover:-translate-y-0.5 ${
                 isDeleting
                     ? "bg-gray-400 cursor-not-allowed"
                     : "bg-red-600 hover:bg-red-700 text-white"

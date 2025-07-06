@@ -217,7 +217,11 @@ export default function WriteForm({ categories }: WriteFormProps) {
                             id="category"
                             value={category}
                             onChange={(e) => setCategory(e.target.value)}
-                            className="w-full h-[42px] px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                            className={`w-full h-[42px] px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent ${
+                                category === ""
+                                    ? "!text-gray-400"
+                                    : "!text-gray-900"
+                            }`}
                             required
                         >
                             <option value="">카테고리를 선택하세요</option>
