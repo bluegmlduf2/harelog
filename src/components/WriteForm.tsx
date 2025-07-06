@@ -35,6 +35,8 @@ export default function WriteForm({ categories }: WriteFormProps) {
         if (savedDraft) {
             try {
                 const draft = JSON.parse(savedDraft);
+                // Next.js (특히 개발환경)는 React.StrictMode를 기본적으로 활성화합니다. 이 모드는 useEffect를 한 번 더 실행해서 부작용(side effect)이 안전하게 작동하는지 확인합니다. 그 결과: 테스트환경에서 confirm 창이 두 번 뜨는 현상이 발생할 수 있습니다.
+                // 실제 배포 환경에서는 한 번만 뜹니다.
                 if (confirm("저장된 임시 초안이 있습니다. 불러오시겠습니까?")) {
                     setTitle(draft.title || "");
                     setCategory(draft.category || "");
