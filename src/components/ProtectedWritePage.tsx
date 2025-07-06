@@ -39,15 +39,6 @@ export default function ProtectedWritePage() {
         checkAuth();
     }, []);
 
-    const handleLogout = async () => {
-        try {
-            await fetch("/api/auth/logout", { method: "POST" });
-            router.push("/login");
-        } catch (error) {
-            console.error("Logout error:", error);
-        }
-    };
-
     // 로딩 중
     if (isLoading) {
         return (
@@ -95,12 +86,6 @@ export default function ProtectedWritePage() {
                         <h1 className="text-2xl font-bold text-gray-900">
                             새 포스트 작성
                         </h1>
-                        <button
-                            onClick={handleLogout}
-                            className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-md text-sm transition-colors"
-                        >
-                            로그아웃
-                        </button>
                     </div>
                     <WriteForm categories={categories} />
                 </div>

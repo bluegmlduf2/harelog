@@ -2,14 +2,30 @@
 
 import Link from "next/link";
 import { useState } from "react";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
+import { useAuth } from "@/hooks/useAuth";
 
 export default function Header() {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const pathname = usePathname();
+    const router = useRouter();
+    const { isAuthenticated, isLoading } = useAuth();
 
     const toggleMenu = () => {
         setIsMenuOpen(!isMenuOpen);
+    };
+
+    const handleLogout = async () => {
+        try {
+            await fetch("/api/auth/logout", { method: "POST" });
+            router.push("/login");
+        } catch (error) {
+            console.error("Logout error:", error);
+        }
+    };
+
+    const handleLogin = () => {
+        router.push("/login");
     };
 
     const isHomePage = pathname === "/";
@@ -36,28 +52,85 @@ export default function Header() {
                         </Link>
                     )}
 
-                    {/* 햄버거 버튼 */}
-                    <button
-                        onClick={toggleMenu}
-                        className="flex flex-col justify-center items-center w-8 h-8 space-y-1 hover:bg-gray-100 rounded-md transition-colors p-1"
-                        aria-label="메뉴 열기"
-                    >
-                        <div
-                            className={`w-6 h-0.5 bg-gray-600 transition-all duration-300 ${
-                                isMenuOpen ? "rotate-45 translate-y-1.5" : ""
-                            }`}
-                        ></div>
-                        <div
-                            className={`w-6 h-0.5 bg-gray-600 transition-all duration-300 ${
-                                isMenuOpen ? "opacity-0" : ""
-                            }`}
-                        ></div>
-                        <div
-                            className={`w-6 h-0.5 bg-gray-600 transition-all duration-300 ${
-                                isMenuOpen ? "-rotate-45 -translate-y-1.5" : ""
-                            }`}
-                        ></div>
-                    </button>
+                    <div className="flex items-center space-x-4">
+                        {/* 로그인/로그아웃 아이콘 */}
+                        {!isLoading && (
+                            <>
+                                {isAuthenticated ? (
+                                    <button
+                                        onClick={handleLogout}
+                                        className="p-2 hover:bg-gray-100 rounded-md transition-colors group"
+                                        aria-label="로그아웃"
+                                        title="로그아웃"
+                                    >
+                                        <svg
+                                            className="w-6 h-6 text-gray-600 group-hover:text-red-600 transition-colors"
+                                            fill="none"
+                                            stroke="currentColor"
+                                            viewBox="0 0 24 24"
+                                            xmlns="http://www.w3.org/2000/svg"
+                                        >
+                                            <path
+                                                strokeLinecap="round"
+                                                strokeLinejoin="round"
+                                                strokeWidth={2}
+                                                d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"
+                                            />
+                                        </svg>
+                                    </button>
+                                ) : (
+                                    <button
+                                        onClick={handleLogin}
+                                        className="p-2 hover:bg-gray-100 rounded-md transition-colors group"
+                                        aria-label="로그인"
+                                        title="로그인"
+                                    >
+                                        <svg
+                                            className="w-6 h-6 text-gray-600 group-hover:text-blue-600 transition-colors"
+                                            fill="none"
+                                            stroke="currentColor"
+                                            viewBox="0 0 24 24"
+                                            xmlns="http://www.w3.org/2000/svg"
+                                        >
+                                            <path
+                                                strokeLinecap="round"
+                                                strokeLinejoin="round"
+                                                strokeWidth={2}
+                                                d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"
+                                            />
+                                        </svg>
+                                    </button>
+                                )}
+                            </>
+                        )}
+
+                        {/* 햄버거 버튼 */}
+                        <button
+                            onClick={toggleMenu}
+                            className="flex flex-col justify-center items-center w-8 h-8 space-y-1 hover:bg-gray-100 rounded-md transition-colors p-1"
+                            aria-label="메뉴 열기"
+                        >
+                            <div
+                                className={`w-6 h-0.5 bg-gray-600 transition-all duration-300 ${
+                                    isMenuOpen
+                                        ? "rotate-45 translate-y-1.5"
+                                        : ""
+                                }`}
+                            ></div>
+                            <div
+                                className={`w-6 h-0.5 bg-gray-600 transition-all duration-300 ${
+                                    isMenuOpen ? "opacity-0" : ""
+                                }`}
+                            ></div>
+                            <div
+                                className={`w-6 h-0.5 bg-gray-600 transition-all duration-300 ${
+                                    isMenuOpen
+                                        ? "-rotate-45 -translate-y-1.5"
+                                        : ""
+                                }`}
+                            ></div>
+                        </button>
+                    </div>
                 </div>
             </div>
 
