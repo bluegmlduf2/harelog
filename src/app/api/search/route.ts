@@ -59,7 +59,7 @@ export async function POST(request: NextRequest) {
             "totalCount": 결과개수
             }
 
-            관련성이 높은 순서대로 최대 5개까지 반환해주세요. 만약 관련된 포스트가 없다면 빈 배열을 반환해주세요.
+            관련성이 높은 순서대로 최대 3개까지 반환해주세요. 만약 관련된 포스트가 없다면 빈 배열을 반환해주세요.
             반드시 JSON 형식으로만 응답해주세요.`,
             temperature: 0.3,
         });
