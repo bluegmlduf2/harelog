@@ -1,6 +1,7 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
+import { useRouter } from "next/navigation";
 import dynamic from "next/dynamic";
 import TurndownService from "turndown";
 
@@ -21,6 +22,9 @@ interface WriteFormProps {
 }
 
 export default function WriteForm({ categories }: WriteFormProps) {
+    const router = useRouter();
+    const messageRef = useRef<HTMLDivElement>(null);
+
     const [title, setTitle] = useState("");
     const [category, setCategory] = useState("");
     const [customCategory, setCustomCategory] = useState("");
@@ -28,6 +32,21 @@ export default function WriteForm({ categories }: WriteFormProps) {
     const [isLoading, setIsLoading] = useState(false);
     const [message, setMessage] = useState({ type: "", text: "" });
     const [showPreview, setShowPreview] = useState(false);
+
+    // 메시지 설정 시 자동 스크롤 함수
+    const setMessageWithScroll = (messageData: {
+        type: string;
+        text: string;
+    }) => {
+        setMessage(messageData);
+        // 메시지가 설정된 후 스크롤 이동
+        setTimeout(() => {
+            messageRef.current?.scrollIntoView({
+                behavior: "smooth",
+                block: "center",
+            });
+        }, 100);
+    };
 
     // 로컬 스토리지에서 임시 저장된 내용 불러오기
     useEffect(() => {
@@ -96,8 +115,10 @@ export default function WriteForm({ categories }: WriteFormProps) {
             category === "new" ? customCategory.trim() : category;
 
         if (!title.trim() || !finalCategory || !content.trim()) {
-            setMessage({ type: "error", text: "모든 필드를 채워주세요." });
-            window.scrollTo({ top: 0, behavior: "smooth" });
+            setMessageWithScroll({
+                type: "error",
+                text: "모든 필드를 채워주세요.",
+            });
             return;
         }
 
@@ -134,7 +155,7 @@ export default function WriteForm({ categories }: WriteFormProps) {
 
             if (response.ok) {
                 const result = await response.json();
-                setMessage({
+                setMessageWithScroll({
                     type: "success",
                     text: `포스트가 성공적으로 저장되었습니다! 파일: ${result.filename}`,
                 });
@@ -147,26 +168,25 @@ export default function WriteForm({ categories }: WriteFormProps) {
                 // 임시 저장된 내용 삭제
                 localStorage.removeItem("harelog-draft");
 
-                // 3초 후 성공 메시지 자동 제거
+                // 3초 후 성공 메시지 자동 제거하고 홈으로 이동
                 setTimeout(() => {
                     setMessage({ type: "", text: "" });
+                    router.push("/");
                 }, 3000);
             } else {
                 const error = await response.json();
-                setMessage({
+                setMessageWithScroll({
                     type: "error",
                     text: error.message || "포스트 저장에 실패했습니다.",
                 });
             }
         } catch (error) {
             console.error("Error saving post:", error);
-            setMessage({
+            setMessageWithScroll({
                 type: "error",
                 text: "포스트 저장 중 오류가 발생했습니다.",
             });
         } finally {
-            // 페이지 상단으로 스크롤
-            window.scrollTo({ top: 0, behavior: "smooth" });
             setIsLoading(false);
         }
     };
@@ -176,6 +196,7 @@ export default function WriteForm({ categories }: WriteFormProps) {
             {/* 메시지 표시 */}
             {message.text && (
                 <div
+                    ref={messageRef}
                     className={`p-4 rounded-md ${
                         message.type === "success"
                             ? "bg-green-50 text-green-800 border border-green-200"
