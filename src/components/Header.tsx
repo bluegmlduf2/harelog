@@ -147,6 +147,13 @@ export default function Header() {
                                 홈
                             </Link>
                             <Link
+                                href="/search"
+                                className="text-gray-700 hover:text-blue-600 transition-colors py-2 px-4 rounded-md hover:bg-gray-50"
+                                onClick={() => setIsMenuOpen(false)}
+                            >
+                                🔍 AI 검색
+                            </Link>
+                            <Link
                                 href="/write"
                                 className="text-gray-700 hover:text-blue-600 transition-colors py-2 px-4 rounded-md hover:bg-gray-50"
                                 onClick={() => setIsMenuOpen(false)}
