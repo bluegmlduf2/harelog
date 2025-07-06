@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
-import { createOpenRouter } from "@openrouter/ai-sdk-provider";
-import { generateText } from "ai";
+import { createOpenRouter } from "@openrouter/ai-sdk-provider"; // AI 모델을 호스팅/제공(프로바이더)하는 서비스 업체 또는 플랫폼(여기선 여러 AI 모델을 제공하는 OpenRouter를 이용)
+import { generateText } from "ai"; // AI 서비스와 코드 상호작용을 위한 라이브러리(ai-sdk)
 import { getAllPosts } from "@/lib/posts";
 
 // OpenRouter 클라이언트 생성 (API 키 포함)

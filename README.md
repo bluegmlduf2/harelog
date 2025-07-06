@@ -17,14 +17,17 @@ Next.js와 Tailwind CSS를 사용한 마크다운 기반 블로그입니다.
 -   **Tailwind CSS** - 유틸리티 퍼스트 CSS 프레임워크
 -   **gray-matter** - 마크다운 front matter 파싱
 -   **remark** & **remark-html** - 마크다운을 HTML로 변환
--   **GitHub API** - Git 자동 커밋 및 푸시 기능
+-   **@tiptap/react** - 리치 텍스트 에디터
+-   **AI SDK** - OpenRouter API 연동
 
 ## 🎯 주요 기능
 
 -   📝 **웹 에디터** - 브라우저에서 직접 포스트 작성 및 수정
--   🔄 **GitHub 파일 저장** - 선택적으로 GitHub에 파일 저장
+-   � **GitHub 저장** - 선택적으로 GitHub에 파일 저장 및 자동 커밋
 -   👨‍💻 **관리자 인증** - 안전한 포스트 관리
 -   🏷️ **카테고리 시스템** - 포스트를 카테고리별로 분류
+-   🖼️ **이미지 업로드** - 드래그 앤 드롭으로 이미지 업로드
+-   🤖 **AI 지원** - OpenRouter API를 통한 AI 기능
 -   📱 **반응형 디자인** - 모든 디바이스에서 최적화된 UI
 
 ## 🚀 시작하기
@@ -46,18 +49,29 @@ cp .env.local.example .env.local
 주요 환경 변수:
 
 ```env
+# 사이트 URL
+NEXT_PUBLIC_SITE_URL=http://localhost:3000
+
 # 관리자 비밀번호
 ADMIN_PASSWORD=your-admin-password
 
 # JWT 비밀키
 JWT_SECRET=your-jwt-secret-key
 
-# Git 파일 저장 비활성화 (로컬 개발용)
+# GitHub 파일 저장 비활성화 (로컬 개발용)
 USE_GITHUB_STORAGE=false
+
+# GitHub 설정 (GitHub 저장 기능 사용시)
+GITHUB_TOKEN=your-github-token
+GITHUB_REPOSITORY=your-username/your-repo
+GITHUB_BRANCH=main
 
 # Git 사용자 정보
 GIT_USER_NAME="HareLog Bot"
 GIT_USER_EMAIL="bot@harelog.com"
+
+# OpenRouter API Key (AI 기능 사용시)
+OPENROUTER_API_KEY=your-openrouter-api-key
 ```
 
 ### 3. 개발 서버 실행
@@ -68,7 +82,7 @@ npm run dev
 
 브라우저에서 [http://localhost:3000](http://localhost:3000)을 열어 결과를 확인하세요.
 
-## 🔄 Git 자동 푸시 기능
+## 🔄 GitHub 저장 기능
 
 HareLog는 GitHub API를 사용하여 포스트를 저장할 때 자동으로 GitHub 리포지토리에 커밋하고 푸시하는 기능을 제공합니다.
 
@@ -86,7 +100,7 @@ HareLog는 GitHub API를 사용하여 포스트를 저장할 때 자동으로 Gi
 **로컬 개발 (.env.local)**
 
 ```env
-GIT_AUTO_PUSH=true
+USE_GITHUB_STORAGE=true
 GITHUB_TOKEN=ghp_your_token_here
 GITHUB_REPOSITORY=your-username/your-repo
 GITHUB_BRANCH=main
@@ -116,7 +130,7 @@ GIT_USER_EMAIL="bot@harelog.com"
 
 ### 3. 새 포스트 작성
 
-`/posts/` 디렉토리에 마크다운 파일을 생성하세요:
+웹 에디터를 통해 포스트를 작성하거나, 직접 `/posts/` 디렉토리에 마크다운 파일을 생성할 수 있습니다:
 
 ```markdown
 ---
@@ -135,15 +149,24 @@ category: "태그"
 ```
 harelog/
 ├── posts/                    # 마크다운 포스트 파일들
-│   ├── hello-world.md
-│   ├── nextjs-blog-tutorial.md
-│   └── tailwind-css-tips.md
+│   ├── 1.md
+│   ├── 2.md
+│   └── ...
+├── public/
+│   ├── storage/              # 이미지 파일들
+│   └── favicon.ico
 ├── src/
 │   ├── app/                  # Next.js App Router
 │   │   ├── posts/[slug]/     # 동적 포스트 페이지
+│   │   ├── api/              # API 라우트
 │   │   └── page.tsx          # 홈페이지
-│   └── lib/
-│       └── posts.ts          # 마크다운 처리 유틸리티
+│   ├── components/           # React 컴포넌트
+│   ├── lib/                  # 유틸리티 함수들
+│   │   ├── posts.ts          # 마크다운 처리 유틸리티
+│   │   ├── github.ts         # GitHub API 관련 함수
+│   │   └── github-api.ts     # GitHub API 추가 유틸리티
+│   └── hooks/                # 커스텀 훅들
+├── scripts/                  # 스크립트 파일들
 ├── .github/
 │   └── copilot-instructions.md
 └── package.json
@@ -197,4 +220,4 @@ npm start
 
 ---
 
-💡 **팁**: 새로운 포스트를 추가한 후에는 개발 서버를 재시작해야 할 수 있습니다.
+💡 **팁**: 웹 에디터를 사용하여 포스트를 작성하면 GitHub에 자동으로 저장되고 사이트가 업데이트됩니다. 관리자 페이지는 `/admin`에서 접근할 수 있습니다.
