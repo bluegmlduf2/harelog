@@ -45,18 +45,24 @@ export default function SearchPage() {
             });
 
             if (!response.ok) {
-                throw new Error("검색 요청이 실패했습니다.");
+                const errorData = await response.json();
+                if (response.status === 401 || response.status === 500) {
+                    throw new Error("검색 요청이 실패했습니다.(401/500)");
+                }
+                throw new Error(
+                    errorData?.message ||
+                        errorData?.error ||
+                        "알 수 없는 오류가 발생했습니다.(메세지 없음)"
+                );
             }
 
             const data: SearchResponse = await response.json();
             setResults(data.results);
             setSearched(true);
-        } catch (err) {
-            setError(
-                err instanceof Error
-                    ? err.message
-                    : "검색 중 오류가 발생했습니다."
-            );
+        } catch (err: unknown) {
+            if (err instanceof Error) {
+                setError(err.message);
+            }
         } finally {
             setLoading(false);
         }

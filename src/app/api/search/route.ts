@@ -84,28 +84,41 @@ export async function POST(request: NextRequest) {
     } catch (error) {
         console.error("AI 검색 오류:", error);
 
-        // 429 에러 (Rate Limit) 처리
-        if (error instanceof Error && error.message.includes("429")) {
-            return NextResponse.json(
-                {
-                    error: "검색 요청이 너무 많습니다. 잠시 후 다시 검색해주세요.",
-                },
-                { status: 429 }
-            );
-        }
-
         // OpenRouter API 에러 처리
-        if (error instanceof Error && error.message.includes("rate limit")) {
-            return NextResponse.json(
-                {
-                    error: "API 요청 한도를 초과했습니다. 잠시 후 다시 검색해주세요.",
-                },
-                { status: 429 }
-            );
+        if (error instanceof Error) {
+            const errorMessage = error.message;
+
+            // Rate limit 관련 에러 처리
+            if (
+                errorMessage.includes("Rate limit exceeded") ||
+                errorMessage.includes("rate limit") ||
+                errorMessage.includes("429") ||
+                errorMessage.includes("free-models-per-day")
+            ) {
+                return NextResponse.json(
+                    {
+                        error: "API 요청 한도를 초과했습니다. 잠시 후 다시 검색해주세요.",
+                    },
+                    { status: 429 }
+                );
+            }
+
+            // API 키 관련 에러 처리
+            if (
+                errorMessage.includes("API key") ||
+                errorMessage.includes("Unauthorized")
+            ) {
+                return NextResponse.json(
+                    { error: "API 키를 확인해주세요." },
+                    { status: 401 }
+                );
+            }
         }
 
         return NextResponse.json(
-            { error: "검색 중 오류가 발생했습니다. API 키를 확인해주세요." },
+            {
+                error: "검색 중 오류가 발생했습니다. 잠시 후 다시 시도해주세요.",
+            },
             { status: 500 }
         );
     }
