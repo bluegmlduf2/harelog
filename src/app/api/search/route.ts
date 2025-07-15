@@ -26,11 +26,7 @@ export async function POST(request: NextRequest) {
         const postsContext = posts
             .map(
                 (post) =>
-                    `제목: ${post.title}\n카테고리: ${post.category}\n날짜: ${
-                        post.date
-                    }\n내용: ${post.content.substring(0, 500)}...\nSlug: ${
-                        post.slug
-                    }`
+                    `제목: ${post.title}\n카테고리: ${post.category}\n날짜: ${post.date}\nSlug: ${post.slug}`
             )
             .join("\n\n---\n\n");
 
