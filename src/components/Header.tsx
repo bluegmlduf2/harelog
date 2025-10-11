@@ -31,7 +31,7 @@ export default function Header() {
     const isHomePage = pathname === "/";
 
     return (
-        <header className="bg-white shadow-sm border-b relative">
+        <header className="bg-white shadow-sm border-b border-gray-200 relative">
             <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="flex justify-between items-center py-6">
                     {isHomePage ? (
@@ -136,7 +136,7 @@ export default function Header() {
 
             {/* 드롭다운 메뉴 */}
             {isMenuOpen && (
-                <div className="absolute top-full left-0 right-0 bg-white shadow-lg border-t z-50">
+                <div className="absolute top-full left-0 right-0 bg-white shadow-lg border-t border-gray-200 z-50">
                     <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
                         <nav className="flex flex-col space-y-3">
                             <Link
