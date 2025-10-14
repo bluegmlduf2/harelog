@@ -52,7 +52,7 @@ export default function Header() {
                         </Link>
                     )}
 
-                    <div className="flex items-center space-x-4">
+                    <div className="flex items-center space-x-2 md:space-x-4">
                         {/* 로그인/로그아웃 아이콘 */}
                         {!isLoading && (
                             <>

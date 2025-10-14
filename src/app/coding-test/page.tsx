@@ -93,8 +93,8 @@ export default function CodingTestPage() {
         <div className="min-h-screen bg-gray-50">
             <Header />
 
-            <main className="max-w-4xl mx-auto px-4 py-8">
-                <div className="bg-white rounded-lg shadow-md p-6 mb-8">
+            <main className="max-w-4xl mx-auto md:px-4 md:py-8">
+                <div className="bg-white md:rounded-lg shadow-md p-6 md:mb-8">
                     <h1 className="text-3xl font-bold text-gray-800 mb-8 text-center">
                         🎯 바이브 코딩 테스트
                     </h1>
@@ -127,7 +127,7 @@ export default function CodingTestPage() {
                                             className={`p-3 rounded-lg border-2 transition-colors ${
                                                 difficulty === level
                                                     ? 'border-blue-500 bg-blue-50 text-blue-700'
-                                                    : 'border-gray-300 hover:border-gray-400'
+                                                    : 'border-gray-300 hover:border-gray-400 text-gray-700'
                                             }`}
                                         >
                                             {level === 'easy' ? '🟢 초급' :
@@ -314,7 +314,7 @@ export default function CodingTestPage() {
                 </div>
 
                 {/* 도움말 */}
-                <div className="bg-white rounded-lg shadow-md p-6">
+                <div className="bg-white md:rounded-lg shadow-md p-6">
                     <h3 className="text-lg font-semibold text-gray-800 mb-4">
                         🎯 바이브 코딩 테스트란?
                     </h3>
