@@ -155,7 +155,7 @@ export default function CodingTestPage() {
                                             className={`p-3 rounded-lg border-2 transition-colors ${
                                                 language === lang.value
                                                     ? 'border-green-500 bg-green-50 text-green-700'
-                                                    : 'border-gray-300 hover:border-gray-400'
+                                                    : 'border-gray-300 hover:border-gray-400 text-gray-700'
                                             }`}
                                         >
                                             {lang.label}
@@ -181,7 +181,7 @@ export default function CodingTestPage() {
                                             className={`p-3 rounded-lg border-2 transition-colors ${
                                                 userLanguage === lang.value
                                                     ? 'border-purple-500 bg-purple-50 text-purple-700'
-                                                    : 'border-gray-300 hover:border-gray-400'
+                                                    : 'border-gray-300 hover:border-gray-400 text-gray-700'
                                             }`}
                                         >
                                             {lang.label}
