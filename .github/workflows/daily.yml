@@ -2,8 +2,8 @@ name: Daily API Call
 
 on:
     schedule:
-        - cron: "*/3 * * * *" # 3분마다실행(테스트용)
-        # - cron: "0 0 * * *" # 매일 00:00 UTC (원하면 조정)
+        - cron: "*/5 * * * *" # 깃허브의 최소값인 5분마다실행(테스트용)
+        # - cron: "0 15 * * *" # 매일 00:00 UTC+9 (한국시간 00:00)에 실행 (24-9=15)
     workflow_dispatch:
 
 jobs:
@@ -12,6 +12,7 @@ jobs:
         steps:
             - name: Call Vercel daily API
               env:
+                  # 해당 API 엔드포인트와 토큰 설정필요 (API_URL은 직접 변경가능하고 TOKEN은 깃허브 액션의 시크릿키 설정및 사용)
                   API_URL: https://harelog.vercel.app/api/generate-english
                   TOKEN: ${{ secrets.DAILY_API_TOKEN }}
               run: |
