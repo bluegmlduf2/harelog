@@ -1,0 +1,26 @@
+name: Daily API Call
+
+on:
+    schedule:
+        - cron: "*/3 * * * *" # 3분마다실행(테스트용)
+        # - cron: "0 0 * * *" # 매일 00:00 UTC (원하면 조정)
+    workflow_dispatch:
+
+jobs:
+    call-api:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Call Vercel daily API
+              env:
+                  API_URL: https://harelog.vercel.app/api/generate-english
+                  TOKEN: ${{ secrets.DAILY_API_TOKEN }}
+              run: |
+                  # POST 요청으로 호출 (응답 확인 포함)
+                  http_code=$(curl -s -o /dev/stderr -w "%{http_code}" -X POST \
+                    -H "Authorization: Bearer $TOKEN" \
+                    "$API_URL")
+                  echo "HTTP status: $http_code"
+                  if [ "$http_code" -ne 200 ]; then
+                    echo "API call failed" >&2
+                    exit 1
+                  fi
