@@ -2,7 +2,6 @@ import { getAllPosts, getPostsPaginated, getAllCategories } from "@/lib/posts";
 import { generateWebsiteSchema, generateBlogSchema } from "@/lib/seo";
 import type { Metadata } from "next";
 import BlogContainer from "@/components/BlogContainer";
-import Header from "@/components/Header";
 
 export const metadata: Metadata = {
     title: "HareLog",
@@ -48,19 +47,15 @@ export default function Home() {
                     __html: JSON.stringify([websiteSchema, blogSchema]),
                 }}
             />
-            <div className="min-h-screen bg-gray-50">
-                {/* Header */}
-                <Header />
+            <main className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
                 {/* Main Content */}
-                <main className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-                    <BlogContainer
-                        initialPosts={initialPosts}
-                        initialHasMore={initialHasMore}
-                        categories={categories}
-                        postCounts={postCounts}
-                    />
-                </main>
-            </div>
+                <BlogContainer
+                    initialPosts={initialPosts}
+                    initialHasMore={initialHasMore}
+                    categories={categories}
+                    postCounts={postCounts}
+                />
+            </main>
         </>
     );
 }
