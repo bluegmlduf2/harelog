@@ -5,6 +5,21 @@ import { createOpenRouter } from "@openrouter/ai-sdk-provider";
 import { generateText } from "ai";
 import { uploadJsonToGitHub } from "@/lib/github";
 
+export interface PatternsResponse {
+    patterns: PatternItem[];
+}
+
+export interface PatternItem {
+    pId: string;
+    pattern: string;
+    meaning: string;
+    examples: {
+        eId: string;
+        sentence: string;
+        translation: string;
+    }[];
+}
+
 // OpenRouter 클라이언트 생성 (API 키 포함)
 const openrouter = createOpenRouter({
     apiKey: process.env.OPENROUTER_API_KEY,
@@ -65,9 +80,12 @@ export async function POST(request: NextRequest) {
             );
         }
 
+        // 기존 패턴 목록 가져오기
+        const existingPatternList = getPatternList();
+
         const result = await generateText({
             model: openrouter("google/gemini-2.0-flash-exp:free"),
-            prompt: generatePatternPrompt(),
+            prompt: generatePatternPrompt(existingPatternList),
             temperature: 0.7,
         });
 
@@ -143,6 +161,39 @@ Notes:
 4. All translations should be natural Korean.
 
 You must respond **only** in JSON format.`;
+
+// 기존에 생성된 패턴 목록을 파일에서 읽어옵니다
+function getPatternList(): string[] {
+    try {
+        const fileNames = fs.readdirSync(patternDirectory);
+        if (!fileNames || fileNames.length === 0) {
+            return [];
+        }
+
+        const patternList: string[] = [];
+
+        fileNames.forEach((fileName) => {
+            const fullPath = path.join(patternDirectory, fileName);
+            const fileContents = fs.readFileSync(fullPath, "utf8");
+            try {
+                const parsed = JSON.parse(fileContents) as PatternsResponse;
+                parsed.patterns.forEach((item: PatternItem) => {
+                    if (item && item.pattern) patternList.push(item.pattern);
+                });
+            } catch (parseErr) {
+                console.error(
+                    `Failed to parse pattern file ${fileName}:`,
+                    parseErr
+                );
+                // 파싱 실패한 파일은 건너뜀
+            }
+        });
+        return patternList;
+    } catch (err) {
+        console.error("getPatternList error:", err);
+        return [];
+    }
+}
 
 // 한국어 버전
 /*
