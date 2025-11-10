@@ -1,5 +1,6 @@
-import { BookOpen } from "lucide-react";
+import { BookOpen, Volume2 } from "lucide-react";
 import { PatternItem } from "@/app/api/generate-english/route";
+import { textToSpeech } from "@/lib/textToSpeech";
 
 interface PatternListProps {
     patterns: PatternItem[];
@@ -22,8 +23,18 @@ export default function PatternList({ patterns }: PatternListProps) {
                                 <h3 className="text-white text-2xl mb-2">
                                     {pattern.pattern}
                                 </h3>
-                                <div className="inline-block bg-white/90 text-blue-700 px-4 py-1.5 rounded-full text-base">
-                                    {pattern.meaning}
+                                <div className="flex items-center">
+                                    <div className="inline-block bg-white/90 text-blue-700 px-4 py-1.5 rounded-full text-base">
+                                        {pattern.meaning}
+                                    </div>
+                                    <div className="pl-3">
+                                        <Volume2
+                                            className="h-5 w-5 cursor-pointer hover:text-gray-200"
+                                            onClick={() =>
+                                                textToSpeech(pattern.pattern)
+                                            }
+                                        />
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -36,9 +47,21 @@ export default function PatternList({ patterns }: PatternListProps) {
                                     key={example.eId}
                                     className="p-4 bg-gradient-to-br from-gray-50 to-gray-100 rounded-2xl"
                                 >
-                                    <div className="flex items-start gap-3">
-                                        <div className="flex-shrink-0 w-6 h-6 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center text-sm mt-0.5">
-                                            {idx + 1}
+                                    <div className="flex items-start justify-center gap-3">
+                                        <div className="flex-shrink-0 w-6 h-6 bg-blue-100 text-blue-600 rounded-full text-sm mt-0.5">
+                                            <div className="flex items-center justify-center">
+                                                {idx + 1}
+                                            </div>
+                                            <div className="flex items-center justify-center mt-3">
+                                                <Volume2
+                                                    className="h-5 w-5 cursor-pointer hover:text-gray-200"
+                                                    onClick={() =>
+                                                        textToSpeech(
+                                                            example.sentence
+                                                        )
+                                                    }
+                                                />
+                                            </div>
                                         </div>
                                         <div className="flex-1">
                                             <p className="text-gray-900 mb-2">
