@@ -147,13 +147,6 @@ export default function Header() {
                                 홈
                             </Link>
                             <Link
-                                href="/search"
-                                className="text-gray-700 hover:text-blue-600 transition-colors py-2 px-4 rounded-md hover:bg-gray-50"
-                                onClick={() => setIsMenuOpen(false)}
-                            >
-                                AI 게시글 검색
-                            </Link>
-                            <Link
                                 href="/write"
                                 className="text-gray-700 hover:text-blue-600 transition-colors py-2 px-4 rounded-md hover:bg-gray-50"
                                 onClick={() => setIsMenuOpen(false)}
@@ -161,11 +154,25 @@ export default function Header() {
                                 글쓰기
                             </Link>
                             <Link
+                                href="/search"
+                                className="text-gray-700 hover:text-blue-600 transition-colors py-2 px-4 rounded-md hover:bg-gray-50"
+                                onClick={() => setIsMenuOpen(false)}
+                            >
+                                01. AI 게시글 검색
+                            </Link>
+                            <Link
                                 href="/coding-test"
                                 className="text-gray-700 hover:text-blue-600 transition-colors py-2 px-4 rounded-md hover:bg-gray-50"
                                 onClick={() => setIsMenuOpen(false)}
                             >
-                                바이브 코딩 테스트
+                                02. 바이브 코딩 테스트
+                            </Link>
+                            <Link
+                                href="/pattern"
+                                className="text-gray-700 hover:text-blue-600 transition-colors py-2 px-4 rounded-md hover:bg-gray-50"
+                                onClick={() => setIsMenuOpen(false)}
+                            >
+                                03. 영어 패턴 학습
                             </Link>
                         </nav>
                     </div>
