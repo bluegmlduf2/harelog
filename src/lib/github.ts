@@ -210,3 +210,30 @@ export async function uploadImageToGitHub(
         githubUrl: result.htmlUrl,
     };
 }
+
+/**
+ * JSON 객체를 GitHub에 파일로 업로드합니다.
+ *
+ * - json: 업로드할 JSON 객체
+ *
+ * 내부적으로 JSON.stringify(..., null, 2)로 포맷한 뒤 base64로 인코딩하여 업로드합니다.
+ */
+export async function uploadJsonToGitHub({
+    json,
+}: {
+    json: unknown;
+}): Promise<void> {
+    const content = JSON.stringify(json, null, 2);
+    const filename = `${new Date()
+        .toISOString()
+        .slice(0, 10)
+        .replace(/-/g, "")}`;
+
+    // uploadFileToGitHub이 base64 인코딩 처리를 해주므로 isBase64=false로 전달
+    await uploadFileToGitHub({
+        path: `public/pattern/${filename}`,
+        content,
+        message: `영어 패턴 JSON 추가: ${filename}`,
+        isBase64: false,
+    });
+}
