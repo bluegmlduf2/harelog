@@ -13,11 +13,13 @@ export interface PatternItem {
     pId: string;
     pattern: string;
     meaning: string;
-    examples: {
-        eId: string;
-        sentence: string;
-        translation: string;
-    }[];
+    examples: Example[];
+}
+
+export interface Example {
+    eId: string;
+    sentence: string;
+    translation: string;
 }
 
 // OpenRouter 클라이언트 생성 (API 키 포함)
@@ -112,8 +114,11 @@ export async function POST(request: NextRequest) {
         }
     } catch (error) {
         console.error("API Error:", error);
+        const errorMessage =
+            error instanceof Error ? error.message : String(error);
+
         return NextResponse.json(
-            { error: "Internal server error" },
+            { error: "Internal server error", details: errorMessage },
             { status: 500 }
         );
     }
@@ -122,7 +127,7 @@ export async function POST(request: NextRequest) {
 // 영어 문장 패턴 생성 프롬프트
 const generatePatternPrompt = (
     avoidPatterns: string[] = []
-) => `Please generate 2 English sentence patterns.
+) => `Please generate 10 English sentence patterns.
 
 Conditions:
 1. The patterns should be practical and commonly used in daily life.
@@ -131,7 +136,7 @@ Conditions:
         ? "exclude the following patterns: " + avoidPatterns.join(", ")
         : "not duplicate any previously generated patterns."
 }
-3. Each pattern must include 2 real-life example sentences.
+3. Each pattern must include 4 real-life example sentences.
 4. All examples should sound natural and be suitable for everyday situations.
 
 Return the result in the following JSON format:
@@ -147,10 +152,10 @@ Return the result in the following JSON format:
           "sentence": "Example sentence",
           "translation": "Korean translation"
         },
-        // ... 1 more
+        // ... 3 more
       ]
     },
-    // ... 1 more
+    // ... 9 more
   ]
 }
 
