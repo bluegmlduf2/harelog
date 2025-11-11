@@ -5,6 +5,7 @@ import { useState, useEffect, useCallback } from "react";
 import { useInView } from "react-intersection-observer";
 import { formatKoreanDate } from "@/lib/date";
 import type { Post } from "@/lib/posts";
+import Loading from "@/components/Loading";
 
 interface PostListProps {
     initialPosts: Post[];
@@ -138,7 +139,7 @@ export default function PostList({
             <div ref={ref} className="flex justify-center py-8">
                 {loading && (
                     <div className="flex items-center space-x-2">
-                        <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-blue-600"></div>
+                        <Loading size="small" />
                         <span className="text-gray-600">
                             게시글을 불러오는 중...
                         </span>

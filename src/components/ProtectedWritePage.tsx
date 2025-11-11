@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import WriteForm from "./WriteForm";
+import Loading from "@/components/Loading";
 
 export default function ProtectedWritePage() {
     const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(
@@ -43,7 +44,9 @@ export default function ProtectedWritePage() {
         return (
             <div className="min-h-screen bg-gray-50 flex items-center justify-center">
                 <div className="text-center">
-                    <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
+                    <div className="mx-auto mb-4">
+                        <Loading size="big" />
+                    </div>
                     <p className="text-gray-600">인증 확인 중...</p>
                 </div>
             </div>

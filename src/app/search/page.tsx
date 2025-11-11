@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { formatKoreanDate } from "@/lib/date";
+import Loading from "@/components/Loading";
 
 interface SearchResult {
     title: string;
@@ -102,7 +103,7 @@ export default function SearchPage() {
 
                 {loading && (
                     <div className="text-center py-8">
-                        <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-blue-500"></div>
+                        <Loading display="inline-block" />
                         <p className="mt-2 text-gray-600">
                             AI가 검색 중입니다...🤖
                         </p>

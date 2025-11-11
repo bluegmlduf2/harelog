@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import PatternList from "@/components/PatternList";
+import Loading from "@/components/Loading";
 import Quiz from "@/components/Quiz";
 import { Calendar } from "lucide-react";
 
@@ -50,13 +51,12 @@ export default function PatternPage() {
         }
     };
 
-    if (loading) {
+    if (loading)
         return (
             <div className="flex justify-center items-center min-h-screen">
-                <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-gray-900"></div>
+                <Loading color="gray" />
             </div>
         );
-    }
 
     if (error) {
         return (
