@@ -1,0 +1,38 @@
+{
+  "patterns": [
+    {
+      "pId": "1",
+      "pattern": "I'm looking forward to...",
+      "meaning": "...을/를 고대하고 있다",
+      "examples": [
+        {
+          "eId": "1",
+          "sentence": "I'm looking forward to seeing you next week.",
+          "translation": "다음 주에 너를 보기를 고대하고 있어."
+        },
+        {
+          "eId": "2",
+          "sentence": "I'm looking forward to the concert tonight.",
+          "translation": "오늘 밤 콘서트가 너무 기대돼."
+        }
+      ]
+    },
+    {
+      "pId": "2",
+      "pattern": "It's worth + -ing...",
+      "meaning": "...할 가치가 있다",
+      "examples": [
+        {
+          "eId": "1",
+          "sentence": "It's worth trying the new pizza place downtown.",
+          "translation": "시내에 새로 생긴 피자집에 가볼 만 해."
+        },
+        {
+          "eId": "2",
+          "sentence": "It's worth reading this book; it's really insightful.",
+          "translation": "이 책은 읽어볼 가치가 있어. 정말 통찰력이 있거든."
+        }
+      ]
+    }
+  ]
+}
