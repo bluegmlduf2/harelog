@@ -95,7 +95,7 @@ export default function PatternPage() {
             </div>
 
             {/* Content */}
-            <div className="max-w-md mx-auto -mt-4">
+            <div className="max-w-md md:max-w-xl mx-auto -mt-4">
                 {/* Tabs */}
                 <div className="px-6 mb-4">
                     <div className="grid grid-cols-2 bg-white shadow-sm rounded-lg p-1">
