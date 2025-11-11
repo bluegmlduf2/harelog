@@ -15,9 +15,9 @@ export default function PatternList({
                     key={pattern.pId}
                     className="overflow-hidden rounded-2xl shadow-lg"
                 >
-                    <div className="bg-gradient-to-r from-blue-500 to-cyan-500 p-6 text-white">
+                    <div className="bg-gradient-to-r from-blue-500 to-cyan-500 p-5 text-white">
                         <div className="flex items-start gap-3 mb-3">
-                            <div className="bg-white/20 p-2 rounded-lg mt-1">
+                            <div className="max-md:hidden bg-white/20 p-2 rounded-lg mt-1">
                                 <BookOpen className="h-5 w-5" />
                             </div>
                             <div className="flex-1">
