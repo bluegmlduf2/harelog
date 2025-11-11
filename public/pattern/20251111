@@ -1,0 +1,39 @@
+{
+  "day": 3,
+  "patterns": [
+    {
+      "pId": "1",
+      "pattern": "It's [adjective] to [verb phrase]",
+      "meaning": "~하기에 [형용사] 하다",
+      "examples": [
+        {
+          "eId": "1",
+          "sentence": "It's important to stay hydrated during the summer.",
+          "translation": "여름에는 수분을 유지하는 것이 중요합니다."
+        },
+        {
+          "eId": "2",
+          "sentence": "It's difficult to learn a new language as an adult.",
+          "translation": "성인이 되어서 새로운 언어를 배우는 것은 어렵습니다."
+        }
+      ]
+    },
+    {
+      "pId": "2",
+      "pattern": "I'm looking forward to [noun/gerund phrase]",
+      "meaning": "[명사/동명사]를 기대하고 있다",
+      "examples": [
+        {
+          "eId": "1",
+          "sentence": "I'm looking forward to the weekend.",
+          "translation": "주말이 기대돼."
+        },
+        {
+          "eId": "2",
+          "sentence": "I'm looking forward to seeing you again.",
+          "translation": "다시 만나뵙기를 기대하고 있습니다."
+        }
+      ]
+    }
+  ]
+}
