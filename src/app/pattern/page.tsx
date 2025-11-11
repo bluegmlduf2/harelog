@@ -9,7 +9,7 @@ import { PatternsResponse } from "@/app/api/generate-english/route";
 
 export default function PatternPage() {
     const [data, setData] = useState<PatternsResponse | null>(null);
-    const [loading, setLoading] = useState(true);
+    const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
     const [activeTab, setActiveTab] = useState<"patterns" | "quiz">("patterns");
     const [selectedDay, setSelectedDay] = useState<number>(1);
@@ -21,6 +21,8 @@ export default function PatternPage() {
 
     const fetchData = async (day?: number) => {
         try {
+            setLoading(true);
+
             const response = await fetch(
                 day
                     ? `/api/generate-english?day=${day}`
