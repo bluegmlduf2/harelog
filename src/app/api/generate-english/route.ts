@@ -36,21 +36,45 @@ const openrouter = createOpenRouter({
 const patternDirectory = path.join(process.cwd(), "public", "pattern");
 
 // 최근 생성된 영어 패턴 파일을 읽어오는 GET 핸들러
-export async function GET() {
+export async function GET(req: NextRequest) {
     try {
         const fileNames = fs.readdirSync(patternDirectory);
-        if (fileNames) {
-            if (fileNames.length === 0) {
-                return NextResponse.json(
-                    { error: "No files found in the pattern directory." },
-                    { status: 404 }
-                );
-            }
-            const fileName = fileNames.reduce((a, b) => (a > b ? a : b));
-            const fullPath = path.join(patternDirectory, fileName);
-            const fileContents = fs.readFileSync(fullPath, "utf8");
-            return NextResponse.json(fileContents);
+        if (fileNames.length === 0) {
+            return NextResponse.json(
+                { error: "No files found in the pattern directory." },
+                { status: 404 }
+            );
         }
+
+        const { searchParams } = new URL(req.url);
+        const paramDay = searchParams.get("day");
+        const day = paramDay ? Number(searchParams.get("day")) : null;
+
+        let targetFile: string = "";
+
+        if (day) {
+            for (const fileName of fileNames) {
+                const fullPath = path.join(patternDirectory, fileName);
+                const fileContents = fs.readFileSync(fullPath, "utf8");
+                const parsed = JSON.parse(fileContents) as PatternsResponse;
+
+                if (parsed.day === day) {
+                    targetFile = fileName;
+                    break;
+                }
+            }
+        } else {
+            // 최신(가장 큰 이름) 파일 선택
+            targetFile = fileNames.reduce((a, b) => (a > b ? a : b));
+        }
+
+        const fullPath = path.join(patternDirectory, targetFile);
+        const fileContents = fs.readFileSync(fullPath, "utf8");
+        const data = JSON.parse(fileContents);
+        return NextResponse.json({
+            ...data,
+            totalCount: fileNames.length,
+        });
     } catch {
         return NextResponse.json(
             { error: "Failed to fetch pattern" },

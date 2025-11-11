@@ -16,30 +16,37 @@ export default function PatternPage() {
     const [availableDays, setAvailableDays] = useState<number>(1);
 
     useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const response = await fetch("/api/generate-english");
-                if (!response.ok) {
-                    throw new Error("데이터를 불러오는데 실패했습니다");
-                }
-                const jsonData = await response.json();
-                const parsed = JSON.parse(jsonData) as PatternsResponse;
-                setData(parsed); // 전체 데이터 설정
-                setAvailableDays(parsed.day); // 최대 일자 설정
-                setSelectedDay(parsed.day); // 기본 선택 일자 설정
-            } catch (err) {
-                setError(
-                    err instanceof Error
-                        ? err.message
-                        : "알 수 없는 에러가 발생했습니다"
-                );
-            } finally {
-                setLoading(false);
-            }
-        };
-
         fetchData();
     }, []);
+
+    const fetchData = async (day?: number) => {
+        try {
+            const response = await fetch(
+                day
+                    ? `/api/generate-english?day=${day}`
+                    : `/api/generate-english`
+            );
+            if (!response.ok) {
+                throw new Error("데이터를 불러오는데 실패했습니다");
+            }
+
+            const jsonData = (await response.json()) as PatternsResponse & {
+                totalCount: number;
+            }; // totalCount 임시적으로 추가
+
+            setData(jsonData); // 전체 데이터 설정
+            setSelectedDay(jsonData.day); // 기본 선택 일자 설정
+            setAvailableDays(jsonData.totalCount); // 최대 일자 설정
+        } catch (err) {
+            setError(
+                err instanceof Error
+                    ? err.message
+                    : "알 수 없는 에러가 발생했습니다"
+            );
+        } finally {
+            setLoading(false);
+        }
+    };
 
     if (loading) {
         return (
@@ -71,7 +78,7 @@ export default function PatternPage() {
                             <select
                                 value={selectedDay}
                                 onChange={(e) =>
-                                    setSelectedDay(Number(e.target.value))
+                                    fetchData(Number(e.target.value))
                                 }
                                 className="appearance-none bg-white/20 !text-white border border-white/30 rounded-lg px-4 py-2 pr-10 cursor-pointer hover:bg-white/30 transition-all focus:outline-none focus:ring-2 focus:ring-white/50"
                             >
