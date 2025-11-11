@@ -127,7 +127,7 @@ export async function POST(request: NextRequest) {
 // 영어 문장 패턴 생성 프롬프트
 const generatePatternPrompt = (
     avoidPatterns: string[] = []
-) => `Please generate 5 English sentence patterns.
+) => `Please generate 2 English sentence patterns.
 
 Conditions:
 1. The patterns should be practical and commonly used in daily life.
@@ -155,7 +155,7 @@ Return the result in the following JSON format:
         // ... 1 more
       ]
     },
-    // ... 4 more
+    // ... 1 more
   ]
 }
 
