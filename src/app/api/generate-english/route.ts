@@ -6,6 +6,7 @@ import { generateText } from "ai";
 import { uploadJsonToGitHub } from "@/lib/github";
 
 export interface PatternsResponse {
+    day: number;
     patterns: PatternItem[];
 }
 
@@ -20,6 +21,11 @@ export interface Example {
     eId: string;
     sentence: string;
     translation: string;
+}
+
+export interface patternListData {
+    patternList: string[];
+    day: number;
 }
 
 // OpenRouter 클라이언트 생성 (API 키 포함)
@@ -84,12 +90,26 @@ export async function POST(request: NextRequest) {
 
         // 기존 패턴 목록 가져오기
         const existingPatternList = getPatternList();
+        // AI를 사용해 새로운 패턴 생성한 결과
+        let result;
 
-        const result = await generateText({
-            model: openrouter("google/gemini-2.0-flash-exp:free"),
-            prompt: generatePatternPrompt(existingPatternList),
-            temperature: 0.7,
-        });
+        /** 빈객체를 타입가드 처리함 */
+        if (
+            existingPatternList &&
+            "patternList" in existingPatternList &&
+            "day" in existingPatternList
+        ) {
+            result = await generateText({
+                model: openrouter("google/gemini-2.0-flash-exp:free"),
+                prompt: generatePatternPrompt(existingPatternList),
+                temperature: 0.7,
+            });
+        } else {
+            return NextResponse.json(
+                { error: "패턴을 검색하는데 실패했습니다" },
+                { status: 500 }
+            );
+        }
 
         let patternData;
         try {
@@ -125,22 +145,25 @@ export async function POST(request: NextRequest) {
 }
 
 // 영어 문장 패턴 생성 프롬프트
-const generatePatternPrompt = (
-    avoidPatterns: string[] = []
-) => `Please generate 2 English sentence patterns.
+const generatePatternPrompt = ({
+    patternList: avoidPatterns,
+    day,
+}: patternListData) =>
+    `Please generate 2 English sentence patterns.
 
 Conditions:
 1. The patterns should be practical and commonly used in daily life.
 2. Each pattern must ${
-    avoidPatterns.length > 0
-        ? "exclude the following patterns: " + avoidPatterns.join(", ")
-        : "not duplicate any previously generated patterns."
-}
+        avoidPatterns.length > 0
+            ? "exclude the following patterns: " + avoidPatterns.join(", ")
+            : "not duplicate any previously generated patterns."
+    }
 3. Each pattern must include 2 real-life example sentences.
 4. All examples should sound natural and be suitable for everyday situations.
 
 Return the result in the following JSON format:
 {
+  "day": ${day + 1},
   "patterns": [
     {
       "pId": "1",
@@ -168,14 +191,15 @@ Notes:
 You must respond **only** in JSON format.`;
 
 // 기존에 생성된 패턴 목록을 파일에서 읽어옵니다
-function getPatternList(): string[] {
+function getPatternList(): patternListData | object {
     try {
         const fileNames = fs.readdirSync(patternDirectory);
         if (!fileNames || fileNames.length === 0) {
-            return [];
+            return {};
         }
 
         const patternList: string[] = [];
+        let day: number = 0;
 
         fileNames.forEach((fileName) => {
             const fullPath = path.join(patternDirectory, fileName);
@@ -185,6 +209,8 @@ function getPatternList(): string[] {
                 parsed.patterns.forEach((item: PatternItem) => {
                     if (item && item.pattern) patternList.push(item.pattern);
                 });
+                // 날짜가 가장 최근인 파일의 패턴을 우선적으로 추가하기 위해 day 변수 사용
+                day++;
             } catch (parseErr) {
                 console.error(
                     `Failed to parse pattern file ${fileName}:`,
@@ -193,54 +219,12 @@ function getPatternList(): string[] {
                 // 파싱 실패한 파일은 건너뜀
             }
         });
-        return patternList;
+        return {
+            patternList,
+            day,
+        };
     } catch (err) {
         console.error("getPatternList error:", err);
-        return [];
+        return {};
     }
 }
-
-// 한국어 버전
-/*
-const generatePatternPrompt = (
-    avoidPatterns: string[] = []
-) => `영어 문장 패턴 10개를 생성해주세요.
-
-조건:
-1. 일상생활에서 자주 사용되는 실용적인 패턴이어야 합니다
-2. 각 패턴은 ${
-    avoidPatterns.length > 0
-        ? "다음 패턴들을 제외하고 생성해주세요: " + avoidPatterns.join(", ")
-        : "이전에 생성된 패턴과 중복되지 않아야 합니다"
-}
-3. 각 패턴마다 4개의 실제 사용 예문이 필요합니다
-4. 모든 예문은 일상적인 상황에서 자연스럽게 사용할 수 있어야 합니다
-
-다음 JSON 형식으로 반환해주세요:
-{
-  "patterns": [
-    {
-      "pId": "1",
-      "pattern": "패턴 표현",
-      "meaning": "한국어 의미",
-      "examples": [
-        {
-          "eId": "1",
-          "sentence": "예문",
-          "translation": "한국어 번역"
-        },
-        // ... 3개 더
-      ]
-    },
-    // ... 9개 더
-  ]
-}
-
-주의사항:
-1. 패턴은 문법적으로 정확해야 합니다
-2. 의미는 명확하고 이해하기 쉽게 설명해주세요
-3. 예문은 실생활에서 바로 활용 가능해야 합니다
-4. 모든 번역은 자연스러운 한국어로 작성해주세요
-
-반드시 JSON 형식으로만 응답해주세요.`;
- */

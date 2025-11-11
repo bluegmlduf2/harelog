@@ -1,12 +1,13 @@
 import { BookOpen, Volume2 } from "lucide-react";
-import { PatternItem } from "@/app/api/generate-english/route";
+import {
+    PatternItem,
+    PatternsResponse as PatternListProps,
+} from "@/app/api/generate-english/route";
 import { textToSpeech } from "@/lib/textToSpeech";
 
-interface PatternListProps {
-    patterns: PatternItem[];
-}
-
-export default function PatternList({ patterns }: PatternListProps) {
+export default function PatternList({
+    patterns,
+}: Omit<PatternListProps, "day">) {
     return (
         <div className="space-y-4">
             {patterns.map((pattern: PatternItem) => (

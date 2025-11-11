@@ -3,17 +3,17 @@
 import { useState, useEffect } from "react";
 import PatternList from "@/components/PatternList";
 // import { Quiz } from "./components/Quiz";
+import { Calendar } from "lucide-react";
 
-import {
-    PatternsResponse,
-    PatternItem,
-} from "@/app/api/generate-english/route";
+import { PatternsResponse } from "@/app/api/generate-english/route";
 
 export default function PatternPage() {
-    const [data, setData] = useState<PatternItem[] | null>(null);
+    const [data, setData] = useState<PatternsResponse | null>(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
     const [activeTab, setActiveTab] = useState<"patterns" | "quiz">("patterns");
+    const [selectedDay, setSelectedDay] = useState<number>(1);
+    const [availableDays, setAvailableDays] = useState<number>(1);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -24,7 +24,9 @@ export default function PatternPage() {
                 }
                 const jsonData = await response.json();
                 const parsed = JSON.parse(jsonData) as PatternsResponse;
-                setData(parsed.patterns);
+                setData(parsed); // 전체 데이터 설정
+                setAvailableDays(parsed.day); // 최대 일자 설정
+                setSelectedDay(parsed.day); // 기본 선택 일자 설정
             } catch (err) {
                 setError(
                     err instanceof Error
@@ -61,7 +63,29 @@ export default function PatternPage() {
             {/* Header */}
             <div className="bg-gradient-to-r from-blue-600 to-cyan-600 text-white">
                 <div className="max-w-md mx-auto px-6 py-8">
-                    <h1 className="text-white mb-2 text-2xl">영어 패턴</h1>
+                    <div className="flex items-center justify-between mb-2">
+                        <h1 className="text-white">영어 패턴</h1>
+                        <div className="relative">
+                            <select
+                                value={selectedDay}
+                                onChange={(e) =>
+                                    setSelectedDay(Number(e.target.value))
+                                }
+                                className="appearance-none bg-white/20 !text-white border border-white/30 rounded-lg px-4 py-2 pr-10 cursor-pointer hover:bg-white/30 transition-all focus:outline-none focus:ring-2 focus:ring-white/50"
+                            >
+                                {[...Array(availableDays)].map((_, index) => (
+                                    <option
+                                        key={index + 1}
+                                        value={index + 1}
+                                        className="text-gray-900"
+                                    >
+                                        Day {index + 1}
+                                    </option>
+                                ))}
+                            </select>
+                            <Calendar className="absolute right-3 top-1/2 -translate-y-1/2 h-4 w-4 pointer-events-none" />
+                        </div>
+                    </div>
                     <p className="text-blue-100">
                         패턴을 학습하고 퀴즈로 실력을 테스트하세요
                     </p>
@@ -98,7 +122,7 @@ export default function PatternPage() {
 
                 <div className="px-6 pb-6">
                     {activeTab === "patterns" && data && (
-                        <PatternList patterns={data} />
+                        <PatternList patterns={data.patterns} />
                     )}
                     {/* {activeTab === "quiz" && <Quiz patterns={data ?? []} />} */}
                 </div>
