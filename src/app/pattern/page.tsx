@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import PatternList from "@/components/PatternList";
-// import { Quiz } from "./components/Quiz";
+import Quiz from "@/components/Quiz";
 import { Calendar } from "lucide-react";
 
 import { PatternsResponse } from "@/app/api/generate-english/route";
@@ -135,7 +135,9 @@ export default function PatternPage() {
                     {activeTab === "patterns" && data && (
                         <PatternList patterns={data.patterns} />
                     )}
-                    {/* {activeTab === "quiz" && <Quiz patterns={data ?? []} />} */}
+                    {activeTab === "quiz" && data && (
+                        <Quiz patterns={data.patterns ?? []} />
+                    )}
                 </div>
             </div>
         </div>
