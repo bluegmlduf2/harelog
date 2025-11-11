@@ -71,7 +71,7 @@ export default function PatternPage() {
         <div className="min-h-screen bg-gray-50">
             {/* Header */}
             <div className="bg-gradient-to-r from-blue-600 to-cyan-600 text-white">
-                <div className="max-w-md mx-auto px-6 py-8">
+                <div className="max-w-md mx-auto px-6 py-6">
                     <div className="flex items-center justify-between mb-2">
                         <h1 className="text-white text-2xl font-bold">
                             영어 패턴
