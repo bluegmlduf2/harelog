@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react";
 import { CheckCircle2, XCircle, RotateCcw, Trophy, Zap } from "lucide-react";
 import { PatternsResponse as PatternListProps } from "@/app/api/generate-english/route";
+import { Volume2 } from "lucide-react";
+import { textToSpeech } from "@/lib/textToSpeech";
 
 interface QuizQuestion {
     type: "sentence" | "meaning";
@@ -137,10 +139,18 @@ export default function QuizPage({ patterns }: Omit<PatternListProps, "day">) {
             <div className="rounded-2xl shadow-lg bg-white">
                 <div className="p-6">
                     <div className="mb-4">
-                        <div className="inline-block bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-sm mb-4">
-                            {currentQuestion.type === "sentence"
-                                ? "문장 번역"
-                                : "패턴 의미"}
+                        <div className="flex items-center mb-4">
+                            <div className="inline-block bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-sm mr-2">
+                                {currentQuestion.type === "sentence"
+                                    ? "문장 번역"
+                                    : "패턴 의미"}
+                            </div>
+                            <Volume2
+                                className="h-5 w-5 cursor-pointer hover:text-gray-200"
+                                onClick={() =>
+                                    textToSpeech(currentQuestion.question)
+                                }
+                            />
                         </div>
                         <div className="bg-gradient-to-br from-blue-50 to-cyan-50 p-5 rounded-2xl border-2 border-blue-100">
                             <p className="text-gray-900 text-lg">
