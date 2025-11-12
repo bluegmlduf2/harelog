@@ -1,12 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
-import { createOpenRouter } from "@openrouter/ai-sdk-provider"; // AI 모델을 호스팅/제공(프로바이더)하는 서비스 업체 또는 플랫폼(여기선 여러 AI 모델을 제공하는 OpenRouter를 이용)
-import { generateText } from "ai"; // AI 서비스와 코드 상호작용을 위한 라이브러리(ai-sdk)
+import { generatePatternWithFallback } from "@/lib/ai";
 import { getAllPosts } from "@/lib/posts";
-
-// OpenRouter 클라이언트 생성 (API 키 포함)
-const openrouter = createOpenRouter({
-    apiKey: process.env.OPENROUTER_API_KEY,
-});
 
 export async function POST(request: NextRequest) {
     try {
@@ -30,17 +24,13 @@ export async function POST(request: NextRequest) {
             )
             .join("\n\n---\n\n");
 
-        // OpenRouter 전용 프로바이더 사용 (API 키 설정 포함)
-        const result = await generateText({
-            model: openrouter("google/gemini-2.0-flash-exp:free"),
-            prompt: `다음은 블로그의 모든 포스트 정보입니다:
-
+        const prompt = `다음은 블로그의 모든 포스트 정보입니다:
             ${postsContext}
-
+            
             사용자 검색어: "${query}"
-
+            
             위의 포스트들 중에서 사용자의 검색어와 가장 관련있는 포스트들을 찾아서 다음 JSON 형식으로 반환해주세요:
-
+            
             {
             "results": [
                 {
@@ -56,9 +46,9 @@ export async function POST(request: NextRequest) {
             }
 
             관련성이 높은 순서대로 최대 3개까지 반환해주세요. 만약 관련된 포스트가 없다면 빈 배열을 반환해주세요.
-            반드시 JSON 형식으로만 응답해주세요.`,
-            temperature: 0.3,
-        });
+            반드시 JSON 형식으로만 응답해주세요.`;
+
+        const result = await generatePatternWithFallback(prompt, 0.3);
 
         // AI 응답을 JSON으로 파싱
         let searchResults;

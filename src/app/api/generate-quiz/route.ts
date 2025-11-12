@@ -1,11 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { createOpenRouter } from "@openrouter/ai-sdk-provider";
-import { generateText } from "ai";
-
-// OpenRouter 클라이언트 생성 (API 키 포함)
-const openrouter = createOpenRouter({
-    apiKey: process.env.OPENROUTER_API_KEY,
-});
+import { generatePatternWithFallback } from "@/lib/ai";
 
 interface QuizRequest {
     difficulty: "easy" | "medium" | "hard";
@@ -60,81 +54,77 @@ const generateQuizWithAI = async (
                   difficultyMap[difficulty as keyof typeof difficultyMap]
               } 수준의 ${language} 프로그래밍 언어로 된 코딩 퀴즈를 생성해주세요.
 
-다음 조건을 만족해야 합니다:
-1. 10-20줄 정도의 실제 동작하는 코드를 작성해주세요
-2. 해당 코드에 대한 4개의 설명 중 1개는 틀린 설명이어야 합니다
-3. 모든 텍스트는 한국어로 작성해주세요
-4. 틀린 설명은 미묘하지만 명확히 틀려야 합니다
+            다음 조건을 만족해야 합니다:
+            1. 10-20줄 정도의 실제 동작하는 코드를 작성해주세요
+            2. 해당 코드에 대한 4개의 설명 중 1개는 틀린 설명이어야 합니다
+            3. 모든 텍스트는 한국어로 작성해주세요
+            4. 틀린 설명은 미묘하지만 명확히 틀려야 합니다
 
-다음 JSON 형식으로 반환해주세요:
-{
-  "code": "실제 동작하는 ${language} 코드",
-  "question": "다음 ${language} 코드에 대한 설명 중 틀린 것은?",
-  "options": [
-    {"id": 1, "text": "설명1", "isCorrect": false},
-    {"id": 2, "text": "설명2", "isCorrect": false},
-    {"id": 3, "text": "틀린설명", "isCorrect": true},
-    {"id": 4, "text": "설명4", "isCorrect": false}
-  ],
-  "explanation": "왜 3번이 틀린지에 대한 자세한 설명"
-}
+            다음 JSON 형식으로 반환해주세요:
+            {
+            "code": "실제 동작하는 ${language} 코드",
+            "question": "다음 ${language} 코드에 대한 설명 중 틀린 것은?",
+            "options": [
+                {"id": 1, "text": "설명1", "isCorrect": false},
+                {"id": 2, "text": "설명2", "isCorrect": false},
+                {"id": 3, "text": "틀린설명", "isCorrect": true},
+                {"id": 4, "text": "설명4", "isCorrect": false}
+            ],
+            "explanation": "왜 3번이 틀린지에 대한 자세한 설명"
+            }
 
-반드시 JSON 형식으로만 응답해주세요.`
+            반드시 JSON 형식으로만 응답해주세요.`
             : userLanguage === "en"
             ? `Generate a ${
                   difficultyMap[difficulty as keyof typeof difficultyMap]
               } level coding quiz in ${language} programming language.
 
-Requirements:
-1. Write 10-20 lines of actual working code
-2. Create 4 explanations about the code, where 1 should be incorrect
-3. All text should be in English
-4. The incorrect explanation should be subtle but clearly wrong
+            Requirements:
+            1. Write 10-20 lines of actual working code
+            2. Create 4 explanations about the code, where 1 should be incorrect
+            3. All text should be in English
+            4. The incorrect explanation should be subtle but clearly wrong
 
-Return in the following JSON format:
-{
-  "code": "actual working ${language} code",
-  "question": "Which explanation about the following ${language} code is incorrect?",
-  "options": [
-    {"id": 1, "text": "explanation1", "isCorrect": false},
-    {"id": 2, "text": "explanation2", "isCorrect": false},
-    {"id": 3, "text": "incorrect explanation", "isCorrect": true},
-    {"id": 4, "text": "explanation4", "isCorrect": false}
-  ],
-  "explanation": "detailed explanation of why option 3 is incorrect"
-}
+            Return in the following JSON format:
+            {
+            "code": "actual working ${language} code",
+            "question": "Which explanation about the following ${language} code is incorrect?",
+            "options": [
+                {"id": 1, "text": "explanation1", "isCorrect": false},
+                {"id": 2, "text": "explanation2", "isCorrect": false},
+                {"id": 3, "text": "incorrect explanation", "isCorrect": true},
+                {"id": 4, "text": "explanation4", "isCorrect": false}
+            ],
+            "explanation": "detailed explanation of why option 3 is incorrect"
+            }
 
-Please respond only in JSON format.`
+            Please respond only in JSON format.`
             : `${
                   difficultyMap[difficulty as keyof typeof difficultyMap]
               }レベルの${language}プログラミング言語でコーディングクイズを生成してください。
 
-条件:
-1. 10-20行程度の実際に動作するコードを書いてください
-2. そのコードについて4つの説明を作成し、そのうち1つは間違った説明にしてください
-3. すべてのテキストは日本語で作成してください
-4. 間違った説明は微妙ですが明確に間違っている必要があります
+            条件:
+            1. 10-20行程度の実際に動作するコードを書いてください
+            2. そのコードについて4つの説明を作成し、そのうち1つは間違った説明にしてください
+            3. すべてのテキストは日本語で作成してください
+            4. 間違った説明は微妙ですが明確に間違っている必要があります
 
-次のJSON形式で返してください:
-{
-  "code": "実際に動作する${language}コード",
-  "question": "次の${language}コードについての説明で間違っているものは？",
-  "options": [
-    {"id": 1, "text": "説明1", "isCorrect": false},
-    {"id": 2, "text": "説明2", "isCorrect": false},
-    {"id": 3, "text": "間違った説明", "isCorrect": true},
-    {"id": 4, "text": "説明4", "isCorrect": false}
-  ],
-  "explanation": "なぜ3番が間違っているかの詳細な説明"
-}
+            次のJSON形式で返してください:
+            {
+            "code": "実際に動作する${language}コード",
+            "question": "次の${language}コードについての説明で間違っているものは？",
+            "options": [
+                {"id": 1, "text": "説明1", "isCorrect": false},
+                {"id": 2, "text": "説明2", "isCorrect": false},
+                {"id": 3, "text": "間違った説明", "isCorrect": true},
+                {"id": 4, "text": "説明4", "isCorrect": false}
+            ],
+            "explanation": "なぜ3番が間違っているかの詳細な説明"
+            }
 
-JSON形式でのみ応答してください。`;
+            JSON形式でのみ応答してください。`;
 
-    const result = await generateText({
-        model: openrouter("google/gemini-2.0-flash-exp:free"),
-        prompt: prompt,
-        temperature: 0.7,
-    });
+    const result = await generatePatternWithFallback(prompt);
 
     // AI 응답을 JSON으로 파싱
     let quizData;

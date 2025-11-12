@@ -1,9 +1,8 @@
 import fs from "fs";
 import path from "path";
 import { NextRequest, NextResponse } from "next/server";
-import { createOpenRouter } from "@openrouter/ai-sdk-provider";
-import { generateText } from "ai";
 import { uploadJsonToGitHub } from "@/lib/github";
+import { generatePatternWithFallback } from "@/lib/ai";
 
 export interface PatternsResponse {
     day: number;
@@ -27,11 +26,6 @@ export interface patternListData {
     patternList: string[];
     day: number;
 }
-
-// OpenRouter 클라이언트 생성 (API 키 포함)
-const openrouter = createOpenRouter({
-    apiKey: process.env.OPENROUTER_API_KEY,
-});
 
 const patternDirectory = path.join(process.cwd(), "public", "pattern");
 
@@ -123,11 +117,8 @@ export async function POST(request: NextRequest) {
             "patternList" in existingPatternList &&
             "day" in existingPatternList
         ) {
-            result = await generateText({
-                model: openrouter("google/gemini-2.0-flash-exp:free"),
-                prompt: generatePatternPrompt(existingPatternList),
-                temperature: 0.7,
-            });
+            const prompt = generatePatternPrompt(existingPatternList);
+            result = await generatePatternWithFallback(prompt);
         } else {
             return NextResponse.json(
                 { error: "패턴을 검색하는데 실패했습니다" },
