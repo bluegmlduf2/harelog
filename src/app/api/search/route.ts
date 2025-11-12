@@ -59,7 +59,7 @@ export async function POST(request: NextRequest) {
             searchResults = JSON.parse(jsonString);
         } catch (parseError) {
             console.error("AI 응답 파싱 오류:", parseError);
-            console.error("AI 응답:", result.text);
+            console.error("파싱 실패한 데이터:", result.text);
             return NextResponse.json(
                 { error: "검색 결과를 처리하는 중 오류가 발생했습니다." },
                 { status: 500 }

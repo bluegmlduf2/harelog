@@ -143,7 +143,7 @@ export async function POST(request: NextRequest) {
             });
         } catch (parseError) {
             console.error("AI 응답 파싱 오류:", parseError);
-            console.error("파싱 실패한 데이터::", result.text);
+            console.error("파싱 실패한 데이터:", result.text);
 
             // 파싱 실패 시 에러 발생시켜 상위에서 처리하도록 함
             throw new Error("AI가 생성한 퀴즈 데이터를 처리할 수 없습니다.");
