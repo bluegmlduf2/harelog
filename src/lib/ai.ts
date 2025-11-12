@@ -5,6 +5,7 @@ const openrouter = createOpenRouter({
     apiKey: process.env.OPENROUTER_API_KEY,
 });
 
+// 해당 모델들을 순차적으로 시도하면서 텍스트 생성
 const MODELS = [
     "google/gemini-2.0-flash-exp:free",
     "meta-llama/llama-3.3-70b-instruct:free",
