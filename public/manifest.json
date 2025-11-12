@@ -1,6 +1,6 @@
 {
-    "name": "HareLog",
-    "short_name": "HareLog",
+    "name": "WallyLog",
+    "short_name": "WallyLog",
     "description": "개발 블로그 및 일상생활 기록을 위한 공간",
     "start_url": "/",
     "display": "standalone",

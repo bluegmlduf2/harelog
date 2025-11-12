@@ -37,7 +37,7 @@ export default function Header() {
                     {isHomePage ? (
                         <div>
                             <h1 className="text-3xl font-bold text-gray-900">
-                                HareLog
+                                WallyLog
                             </h1>
                             <p className="text-gray-600 mt-1 text-sm lg:text-base">
                                 개발 블로그 및 일상생활 기록을 위한 공간
@@ -48,7 +48,7 @@ export default function Header() {
                             href="/"
                             className="text-2xl font-bold text-gray-900 hover:text-blue-600 transition-colors"
                         >
-                            HareLog
+                            WallyLog
                         </Link>
                     )}
 

@@ -50,7 +50,7 @@ export default function WriteForm({ categories }: WriteFormProps) {
 
     // 로컬 스토리지에서 임시 저장된 내용 불러오기
     useEffect(() => {
-        const savedDraft = localStorage.getItem("harelog-draft");
+        const savedDraft = localStorage.getItem("wallylog-draft");
         if (savedDraft) {
             try {
                 const draft = JSON.parse(savedDraft);
@@ -62,11 +62,11 @@ export default function WriteForm({ categories }: WriteFormProps) {
                     setCustomCategory(draft.customCategory || "");
                     setContent(draft.content || "");
                 } else {
-                    localStorage.removeItem("harelog-draft");
+                    localStorage.removeItem("wallylog-draft");
                 }
             } catch (error) {
                 console.error("Error loading draft:", error);
-                localStorage.removeItem("harelog-draft");
+                localStorage.removeItem("wallylog-draft");
             }
         }
     }, []);
@@ -81,7 +81,7 @@ export default function WriteForm({ categories }: WriteFormProps) {
                 content,
                 lastSaved: new Date().toISOString(),
             };
-            localStorage.setItem("harelog-draft", JSON.stringify(draft));
+            localStorage.setItem("wallylog-draft", JSON.stringify(draft));
         }
     }, [title, category, customCategory, content]);
 
@@ -166,7 +166,7 @@ export default function WriteForm({ categories }: WriteFormProps) {
                 setContent("");
 
                 // 임시 저장된 내용 삭제
-                localStorage.removeItem("harelog-draft");
+                localStorage.removeItem("wallylog-draft");
 
                 // 3초 후 성공 메시지 자동 제거하고 홈으로 이동
                 setTimeout(() => {

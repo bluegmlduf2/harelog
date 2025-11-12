@@ -28,7 +28,7 @@ export async function GET() {
           <pubDate>${pubDate}</pubDate>
           <link>${baseUrl}/posts/${post.slug}</link>
           <guid isPermaLink="true">${baseUrl}/posts/${post.slug}</guid>
-          <author>HareLog</author>
+          <author>WallyLog</author>
           ${post.category ? `<category>${post.category}</category>` : ""}
         </item>
       `;
@@ -38,12 +38,12 @@ export async function GET() {
     const rssFeed = `<?xml version="1.0" encoding="UTF-8" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>HareLog</title>
+    <title>WallyLog</title>
     <description>개발 블로그 및 일상생활 기록을 위한 공간</description>
     <link>${baseUrl}</link>
     <language>ko-KR</language>
-    <managingEditor>hare</managingEditor>
-    <webMaster>hare</webMaster>
+    <managingEditor>wally</managingEditor>
+    <webMaster>wally</webMaster>
     <lastBuildDate>${new Date().toUTCString()}</lastBuildDate>
     <atom:link href="${baseUrl}/feed" rel="self" type="application/rss+xml"/>
     ${rssItems}

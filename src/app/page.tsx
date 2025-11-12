@@ -4,17 +4,17 @@ import type { Metadata } from "next";
 import BlogContainer from "@/components/BlogContainer";
 
 export const metadata: Metadata = {
-    title: "HareLog",
+    title: "WallyLog",
     description: "개발 블로그 및 일상생활 기록을 위한 공간",
     openGraph: {
-        title: "HareLog",
+        title: "WallyLog",
         description: "개발 블로그 및 일상생활 기록을 위한 공간",
         type: "website",
         url: "/",
     },
     twitter: {
         card: "summary_large_image",
-        title: "HareLog",
+        title: "WallyLog",
         description: "개발 블로그 및 일상생활 기록을 위한 공간",
     },
 };

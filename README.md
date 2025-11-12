@@ -1,4 +1,4 @@
-# HareLog - Next.js Markdown Blog
+# WallyLog - Next.js Markdown Blog
 
 Next.js와 Tailwind CSS를 사용한 마크다운 기반 블로그입니다.
 
@@ -67,8 +67,8 @@ GITHUB_REPOSITORY=your-username/your-repo
 GITHUB_BRANCH=main
 
 # Git 사용자 정보
-GIT_USER_NAME="HareLog Bot"
-GIT_USER_EMAIL="bot@harelog.com"
+GIT_USER_NAME="WallyLog Bot"
+GIT_USER_EMAIL="bot@wallylog.com"
 
 # OpenRouter API Key (AI 기능 사용시)
 OPENROUTER_API_KEY=your-openrouter-api-key
@@ -84,7 +84,7 @@ npm run dev
 
 ## 🔄 GitHub 저장 기능
 
-HareLog는 GitHub API를 사용하여 포스트를 저장할 때 자동으로 GitHub 리포지토리에 커밋하고 푸시하는 기능을 제공합니다.
+WallyLog는 GitHub API를 사용하여 포스트를 저장할 때 자동으로 GitHub 리포지토리에 커밋하고 푸시하는 기능을 제공합니다.
 
 ### � 설정 방법
 
@@ -104,8 +104,8 @@ USE_GITHUB_STORAGE=true
 GITHUB_TOKEN=ghp_your_token_here
 GITHUB_REPOSITORY=your-username/your-repo
 GITHUB_BRANCH=main
-GIT_USER_NAME="HareLog Bot"
-GIT_USER_EMAIL="bot@harelog.com"
+GIT_USER_NAME="WallyLog Bot"
+GIT_USER_EMAIL="bot@wallylog.com"
 ```
 
 **Vercel 배포 (Environment Variables)**
@@ -147,7 +147,7 @@ category: "태그"
 ## 📁 프로젝트 구조
 
 ```
-harelog/
+wallylog/
 ├── posts/                    # 마크다운 포스트 파일들
 │   ├── 1.md
 │   ├── 2.md

@@ -8,7 +8,7 @@ export function generateBlogPostingSchema(post: Post, url: string) {
         description: post.title,
         author: {
             "@type": "Person",
-            name: "HareLog",
+            name: "WallyLog",
         },
         datePublished: post.date,
         dateModified: post.date,
@@ -17,7 +17,7 @@ export function generateBlogPostingSchema(post: Post, url: string) {
         articleBody: post.content,
         publisher: {
             "@type": "Organization",
-            name: "HareLog",
+            name: "WallyLog",
         },
     };
 }
@@ -26,7 +26,7 @@ export function generateWebsiteSchema() {
     return {
         "@context": "https://schema.org",
         "@type": "WebSite",
-        name: "HareLog",
+        name: "WallyLog",
         description: "Next.js와 Tailwind CSS로 만든 마크다운 기반 개발 블로그",
         url: process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000",
         potentialAction: {
@@ -46,16 +46,16 @@ export function generateBlogSchema() {
     return {
         "@context": "https://schema.org",
         "@type": "Blog",
-        name: "HareLog",
+        name: "WallyLog",
         description: "Next.js와 Tailwind CSS로 만든 마크다운 기반 개발 블로그",
         url: process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000",
         author: {
             "@type": "Person",
-            name: "HareLog",
+            name: "WallyLog",
         },
         publisher: {
             "@type": "Organization",
-            name: "HareLog",
+            name: "WallyLog",
         },
     };
 }

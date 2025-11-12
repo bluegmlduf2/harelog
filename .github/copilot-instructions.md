@@ -1,6 +1,6 @@
 <!-- Use this file to provide workspace-specific custom instructions to Copilot. For more details, visit https://code.visualstudio.com/docs/copilot/copilot-customization#_use-a-githubcopilotinstructionsmd-file -->
 
-# HareLog - Next.js Markdown Blog
+# WallyLog - Next.js Markdown Blog
 
 이 프로젝트는 Next.js와 Tailwind CSS를 사용한 마크다운 기반 블로그입니다.
 

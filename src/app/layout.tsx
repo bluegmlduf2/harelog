@@ -15,8 +15,8 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
     title: {
-        default: "HareLog",
-        template: "%s | HareLog",
+        default: "WallyLog",
+        template: "%s | WallyLog",
     },
     description: "개발 블로그 및 일상생활 기록을 위한 공간",
     keywords: [
@@ -33,9 +33,9 @@ export const metadata: Metadata = {
         "블로그",
         "개발",
     ],
-    authors: [{ name: "Hare" }],
-    creator: "HareLog",
-    publisher: "HareLog",
+    authors: [{ name: "Wally" }],
+    creator: "WallyLog",
+    publisher: "WallyLog",
     formatDetection: {
         email: false,
         address: false,
@@ -76,13 +76,13 @@ export const metadata: Metadata = {
         type: "website",
         locale: "ko_KR",
         url: "/",
-        title: "HareLog",
+        title: "WallyLog",
         description: "개발 블로그 및 일상생활 기록을 위한 공간",
-        siteName: "HareLog",
+        siteName: "WallyLog",
     },
     twitter: {
         card: "summary_large_image",
-        title: "HareLog",
+        title: "WallyLog",
         description: "개발 블로그 및 일상생활 기록을 위한 공간",
     },
     robots: {
@@ -110,7 +110,7 @@ export default function RootLayout({
                 <link
                     rel="alternate"
                     type="application/rss+xml"
-                    title="HareLog RSS Feed"
+                    title="WallyLog RSS Feed"
                     href="/feed"
                 />
                 {/* 브라우저별 최적화 */}
@@ -124,7 +124,7 @@ export default function RootLayout({
                     name="apple-mobile-web-app-status-bar-style"
                     content="default"
                 />
-                <meta name="apple-mobile-web-app-title" content="HareLog" />
+                <meta name="apple-mobile-web-app-title" content="WallyLog" />
                 <meta name="mobile-web-app-capable" content="yes" />
                 <meta name="theme-color" content="#3B82F6" />
             </head>

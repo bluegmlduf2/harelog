@@ -8,9 +8,9 @@
 ```bash
 git init
 git add .
-git commit -m "Initial commit: HareLog blog"
+git commit -m "Initial commit: WallyLog blog"
 git branch -M main
-git remote add origin https://github.com/your-username/harelog.git
+git remote add origin https://github.com/your-username/wallylog.git
 git push -u origin main
 ```
 
@@ -53,8 +53,8 @@ Vercel 대시보드에서 다음 환경 변수들을 설정하세요:
 -   `GITHUB_TOKEN`: GitHub Personal Access Token
 -   `GITHUB_REPOSITORY`: `your-username/your-repo`
 -   `GITHUB_BRANCH`: `main`
--   `GIT_USER_NAME`: `"HareLog Bot"`
--   `GIT_USER_EMAIL`: `"bot@harelog.com"`
+-   `GIT_USER_NAME`: `"WallyLog Bot"`
+-   `GIT_USER_EMAIL`: `"bot@wallylog.com"`
 
 ### AI 기능 사용시 (선택사항)
 

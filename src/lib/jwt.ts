@@ -23,16 +23,16 @@ export function generateToken(userId: string): string {
 
     return jwt.sign(payload, JWT_SECRET, {
         expiresIn: "24h", // jwt의 유효기간을 24시간으로 설정(토큰자체를 해킹당할 경우를 대비)
-        issuer: "harelog",
-        audience: "harelog-admin",
+        issuer: "wallylog",
+        audience: "wallylog-admin",
     });
 }
 
 export function verifyToken(token: string): JWTPayload | null {
     try {
         const decoded = jwt.verify(token, JWT_SECRET, {
-            issuer: "harelog",
-            audience: "harelog-admin",
+            issuer: "wallylog",
+            audience: "wallylog-admin",
         }) as JWTPayload;
 
         // 성공시 payload 반환

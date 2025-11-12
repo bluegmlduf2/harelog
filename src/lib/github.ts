@@ -19,8 +19,8 @@ export function getGitHubConfig(): GitHubConfig {
     const token = process.env.GITHUB_TOKEN;
     const repository = process.env.GITHUB_REPOSITORY;
     const branch = process.env.GITHUB_BRANCH || "main";
-    const userName = process.env.GIT_USER_NAME || "HareLog Bot";
-    const userEmail = process.env.GIT_USER_EMAIL || "bot@harelog.com";
+    const userName = process.env.GIT_USER_NAME || "WallyLog Bot";
+    const userEmail = process.env.GIT_USER_EMAIL || "bot@wallylog.com";
 
     if (!token || !repository) {
         throw new Error(
