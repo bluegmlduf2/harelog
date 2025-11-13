@@ -2,7 +2,7 @@ import LoginForm from "@/components/LoginForm";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-    title: "관리자 로그인 - HareLog",
+    title: "관리자 로그인 - WallyLog",
     description: "관리자 로그인",
 };
 
