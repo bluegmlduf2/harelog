@@ -51,6 +51,17 @@ export default function PatternPage() {
         }
     };
 
+    // 다음 퀴즈 문제를 무작위로 불러오기
+    const onNextRandomQuiz = () => {
+        // selectedDay를 제외한 무작위 일자 선택
+        let randomDay;
+        do {
+            randomDay = Math.floor(Math.random() * availableDays) + 1;
+        } while (randomDay === selectedDay);
+
+        fetchData(randomDay);
+    };
+
     if (loading)
         return (
             <div className="flex justify-center items-center min-h-screen">
@@ -66,7 +77,6 @@ export default function PatternPage() {
         );
     }
 
-    // <div className="container mx-auto px-4 py-8">
     return (
         <div className="min-h-screen bg-gray-50">
             {/* Header */}
@@ -136,7 +146,10 @@ export default function PatternPage() {
                         <PatternList patterns={data.patterns} />
                     )}
                     {activeTab === "quiz" && data && (
-                        <Quiz patterns={data.patterns ?? []} />
+                        <Quiz
+                            patterns={data.patterns ?? []}
+                            onNextRandomQuiz={onNextRandomQuiz}
+                        />
                     )}
                 </div>
             </div>

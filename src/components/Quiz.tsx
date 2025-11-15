@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
-import { CheckCircle2, XCircle, RotateCcw, Trophy, Zap } from "lucide-react";
-import { PatternsResponse as PatternListProps } from "@/app/api/generate-english/route";
+import { CheckCircle2, XCircle, Shuffle, Trophy, Info } from "lucide-react";
+import { PatternItem } from "@/app/api/generate-english/route";
 import { Volume2 } from "lucide-react";
 import { textToSpeech } from "@/lib/textToSpeech";
 
@@ -12,13 +12,22 @@ interface QuizQuestion {
     pattern: string;
 }
 
-export default function QuizPage({ patterns }: Omit<PatternListProps, "day">) {
+interface QuizPageProps {
+    patterns: PatternItem[];
+    onNextRandomQuiz: () => void;
+}
+
+export default function QuizPage({
+    patterns,
+    onNextRandomQuiz,
+}: QuizPageProps) {
     const [currentQuestion, setCurrentQuestion] = useState<QuizQuestion | null>(
         null
     );
     const [selectedAnswer, setSelectedAnswer] = useState<string | null>(null);
     const [isAnswered, setIsAnswered] = useState(false);
-    const [score, setScore] = useState({ correct: 0, total: 0 });
+    const [score, setScore] = useState({ correct: 0 });
+    const [isOpenTooltip, setIsOpenTooltip] = useState(false);
 
     const generateQuestion = (): QuizQuestion => {
         const randomPattern =
@@ -87,12 +96,11 @@ export default function QuizPage({ patterns }: Omit<PatternListProps, "day">) {
         const isCorrect = answer === currentQuestion?.correctAnswer;
         setScore((prev) => ({
             correct: prev.correct + (isCorrect ? 1 : 0),
-            total: prev.total + 1,
         }));
     };
 
     const resetQuiz = () => {
-        setScore({ correct: 0, total: 0 });
+        setScore({ correct: 0 });
         startNewQuestion();
     };
 
@@ -105,32 +113,57 @@ export default function QuizPage({ patterns }: Omit<PatternListProps, "day">) {
     }
 
     const isCorrect = selectedAnswer === currentQuestion.correctAnswer;
-    const accuracy =
-        score.total > 0 ? Math.round((score.correct / score.total) * 100) : 0;
+    const correctCount = score.correct;
+
+    // 정답수에 따른 메시지
+    const getCorrectMessage = () => {
+        if (score.correct === 10) return "장기기억 완성! 🧠";
+        if (score.correct >= 8) return "장기기억 형성중! 💡";
+        if (score.correct >= 6) return "기억이 쌓이고 있어요! 📚";
+        if (score.correct >= 3) return "단기기억 단계! 🌱";
+        return "장기기억으로 가려면 조금 더 복습해볼까요? 📖";
+    };
 
     return (
         <div className="space-y-4">
             {/* Score Cards */}
-            <div className="grid grid-cols-2 gap-3">
-                <div className="rounded-2xl shadow-md overflow-hidden">
-                    <div className="p-4 bg-gradient-to-br from-blue-500 to-blue-600 text-white">
-                        <div className="flex items-center gap-2 mb-1">
-                            <Trophy className="h-4 w-4" />
-                            <span className="text-blue-100">점수</span>
+            <div>
+                <div className="rounded-2xl shadow-md">
+                    <div className="p-5 rounded-2xl bg-gradient-to-br from-cyan-500 to-cyan-600 text-white">
+                        <div className="flex items-center justify-between">
+                            <div className="flex items-center gap-2">
+                                <Trophy className="h-5 w-5" />
+                                <span className="text-cyan-100">반복횟수</span>
+                                <div className="relative rounded-2xl">
+                                    <Info
+                                        className="h-4 w-4 cursor-pointer"
+                                        onMouseEnter={() =>
+                                            setIsOpenTooltip(true)
+                                        }
+                                        onMouseLeave={() =>
+                                            setIsOpenTooltip(false)
+                                        }
+                                    />
+                                    {isOpenTooltip && (
+                                        <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2  z-10">
+                                            <div className="bg-gray-900 text-white text-sm rounded-lg py-2 px-3 whitespace-nowrap shadow-lg">
+                                                정답 횟수가 누적됩니다.
+                                            </div>
+                                        </div>
+                                    )}
+                                </div>
+                            </div>
+                            <div className="text-right">
+                                <div className="text-3xl mb-0.5">
+                                    {correctCount}
+                                </div>
+                            </div>
                         </div>
-                        <div className="text-2xl">
-                            {score.correct}/{score.total}
-                        </div>
-                    </div>
-                </div>
-
-                <div className="rounded-2xl shadow-md overflow-hidden">
-                    <div className="p-4 bg-gradient-to-br from-cyan-500 to-cyan-600 text-white">
-                        <div className="flex items-center gap-2 mb-1">
-                            <Zap className="h-4 w-4" />
-                            <span className="text-cyan-100">정확도</span>
-                        </div>
-                        <div className="text-2xl">{accuracy}%</div>
+                        {score.correct > 0 && (
+                            <div className="text-sm text-cyan-100 mt-2">
+                                {getCorrectMessage()}
+                            </div>
+                        )}
                     </div>
                 </div>
             </div>
@@ -253,10 +286,11 @@ export default function QuizPage({ patterns }: Omit<PatternListProps, "day">) {
                             다음 문제
                         </button>
                         <button
-                            onClick={resetQuiz}
-                            className="h-12 px-6 border-2 border-gray-200 rounded-xl hover:bg-gray-50 transition-all"
+                            onClick={onNextRandomQuiz}
+                            className="h-12 px-6 border-2 border-blue-200 bg-blue-50 text-blue-600 rounded-xl hover:bg-blue-100 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                            title="랜덤 문제"
                         >
-                            <RotateCcw className="h-4 w-4" />
+                            <Shuffle className="h-4 w-4" />
                         </button>
                     </div>
                 </div>
