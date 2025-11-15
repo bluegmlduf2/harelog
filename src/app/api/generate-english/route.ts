@@ -204,7 +204,10 @@ Notes:
 3. Example sentences must be practical and usable in real life.
 4. All translations should be natural Korean.
 
-You must respond **only** in JSON format.`;
+You must respond only in JSON format.
+All fields must be filled. No field may be empty.
+If translation cannot be generated, regenerate until valid.
+`;
 
 // 기존에 생성된 패턴 목록을 파일에서 읽어옵니다
 function getPatternList(): patternListData | object {
