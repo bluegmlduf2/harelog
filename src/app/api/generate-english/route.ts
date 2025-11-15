@@ -206,7 +206,10 @@ Notes:
 
 You must respond only in JSON format.
 All fields must be filled. No field may be empty.
-If translation cannot be generated, regenerate until valid.
+If a pattern, example, or translation fails to generate, regenerate the JSON until all fields contain valid values.
+Do not escape Unicode characters in Korean translations.
+If excluded patterns remove too many options, create new unique patterns.
+
 `;
 
 // 기존에 생성된 패턴 목록을 파일에서 읽어옵니다
