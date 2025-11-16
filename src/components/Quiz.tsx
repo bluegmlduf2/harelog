@@ -14,11 +14,17 @@ interface QuizQuestion {
 
 interface QuizPageProps {
     patterns: PatternItem[];
+    selectedDay: number;
     onNextRandomQuiz: () => void;
+}
+
+interface Score {
+    correct: number;
 }
 
 export default function QuizPage({
     patterns,
+    selectedDay,
     onNextRandomQuiz,
 }: QuizPageProps) {
     const [currentQuestion, setCurrentQuestion] = useState<QuizQuestion | null>(
@@ -26,7 +32,7 @@ export default function QuizPage({
     );
     const [selectedAnswer, setSelectedAnswer] = useState<string | null>(null);
     const [isAnswered, setIsAnswered] = useState(false);
-    const [score, setScore] = useState({ correct: 0 });
+    const [score, setScore] = useState<Score>({ correct: 0 });
     const [isOpenTooltip, setIsOpenTooltip] = useState(false);
 
     const generateQuestion = (): QuizQuestion => {
@@ -94,20 +100,52 @@ export default function QuizPage({
         setIsAnswered(true);
 
         const isCorrect = answer === currentQuestion?.correctAnswer;
+        // 현재 화면에서 점수 업데이트
         setScore((prev) => ({
             correct: prev.correct + (isCorrect ? 1 : 0),
         }));
+        // 로컬 스토리지에 점수 저장
+        const newScore = {
+            correct: score.correct + (isCorrect ? 1 : 0),
+        };
+        saveScoreToStorage(selectedDay.toString(), newScore);
     };
 
-    const resetQuiz = () => {
-        setScore({ correct: 0 });
-        startNewQuestion();
+    // 로컬 스토리지에서 점수 불러오기
+    const loadScoreFromStorage = () => {
+        const storedScore = localStorage.getItem("quizScore");
+
+        if (!storedScore) {
+            setScore({ correct: 0 });
+            return;
+        }
+
+        const parsedScore = JSON.parse(storedScore) as Record<string, Score>;
+
+        setScore(parsedScore[selectedDay] || { correct: 0 });
+    };
+
+    // 로컬 스토리지에 점수 저장하기
+    const saveScoreToStorage = (day: string, score: Score) => {
+        // 기존 저장된 점수 가져오기
+        const storedScore = localStorage.getItem("quizScore");
+        const parsedScore: Record<string, Score> = storedScore
+            ? JSON.parse(storedScore)
+            : {};
+
+        // 특정 날짜 점수 업데이트
+        parsedScore[day] = score;
+
+        // 다시 로컬스토리지에 저장
+        localStorage.setItem("quizScore", JSON.stringify(parsedScore));
     };
 
     useEffect(() => {
+        loadScoreFromStorage();
         startNewQuestion();
     }, []);
 
+    // 현재 질문이 없으면 빈 화면 표시
     if (!currentQuestion) {
         return null;
     }
@@ -147,7 +185,9 @@ export default function QuizPage({
                                     {isOpenTooltip && (
                                         <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2  z-10">
                                             <div className="bg-gray-900 text-white text-sm rounded-lg py-2 px-3 whitespace-nowrap shadow-lg">
-                                                정답 횟수가 누적됩니다.
+                                                정답 횟수가 누적됩니다
+                                                <br />
+                                                (브라우저를 닫아도 유지)
                                             </div>
                                         </div>
                                     )}

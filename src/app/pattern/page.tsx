@@ -148,6 +148,7 @@ export default function PatternPage() {
                     {activeTab === "quiz" && data && (
                         <Quiz
                             patterns={data.patterns ?? []}
+                            selectedDay={selectedDay}
                             onNextRandomQuiz={onNextRandomQuiz}
                         />
                     )}
