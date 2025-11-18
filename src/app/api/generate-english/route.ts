@@ -27,6 +27,10 @@ export interface patternListData {
     day: number;
 }
 
+export interface Score {
+    correct: number;
+}
+
 const patternDirectory = path.join(process.cwd(), "public", "pattern");
 
 // 최근 생성된 영어 패턴 파일을 읽어오는 GET 핸들러

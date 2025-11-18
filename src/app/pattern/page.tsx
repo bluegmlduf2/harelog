@@ -4,15 +4,17 @@ import { useState, useEffect } from "react";
 import PatternList from "@/components/PatternList";
 import Loading from "@/components/Loading";
 import Quiz from "@/components/Quiz";
-import { Calendar } from "lucide-react";
-
+import { Statistics } from "@/components/Statistics";
+import { Calendar, ArrowLeft, BarChart3 } from "lucide-react";
 import { PatternsResponse } from "@/app/api/generate-english/route";
 
 export default function PatternPage() {
     const [data, setData] = useState<PatternsResponse | null>(null);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
-    const [activeTab, setActiveTab] = useState<"patterns" | "quiz">("patterns");
+    const [activeTab, setActiveTab] = useState<
+        "patterns" | "quiz" | "statistics"
+    >("patterns");
     const [selectedDay, setSelectedDay] = useState<number>(1);
     const [availableDays, setAvailableDays] = useState<number>(1);
 
@@ -62,6 +64,14 @@ export default function PatternPage() {
         fetchData(randomDay);
     };
 
+    const handleStatisticsClick = () => {
+        if (activeTab === "statistics") {
+            setActiveTab("patterns");
+        } else {
+            setActiveTab("statistics");
+        }
+    };
+
     if (loading)
         return (
             <div className="flex justify-center items-center min-h-screen">
@@ -86,7 +96,22 @@ export default function PatternPage() {
                         <h1 className="text-white text-2xl font-bold">
                             영어 패턴
                         </h1>
-                        <div className="relative">
+                        <div className="relative flex items-center gap-3">
+                            <button
+                                onClick={handleStatisticsClick}
+                                className="p-2 bg-white/20 hover:bg-white/30 rounded-lg transition-all border border-white/30"
+                                title={
+                                    activeTab === "statistics"
+                                        ? "뒤로 가기"
+                                        : "통계 보기"
+                                }
+                            >
+                                {activeTab === "statistics" ? (
+                                    <ArrowLeft className="h-5 w-5" />
+                                ) : (
+                                    <BarChart3 className="h-5 w-5" />
+                                )}
+                            </button>
                             <select
                                 value={selectedDay}
                                 onChange={(e) =>
@@ -150,6 +175,13 @@ export default function PatternPage() {
                             patterns={data.patterns ?? []}
                             selectedDay={selectedDay}
                             onNextRandomQuiz={onNextRandomQuiz}
+                        />
+                    )}
+                    {activeTab === "statistics" && (
+                        <Statistics
+                            fetchData={fetchData}
+                            setActiveTab={setActiveTab}
+                            availableDays={availableDays}
                         />
                     )}
                 </div>

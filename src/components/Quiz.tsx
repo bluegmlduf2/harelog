@@ -3,6 +3,7 @@ import { CheckCircle2, XCircle, Shuffle, Trophy, Info } from "lucide-react";
 import { PatternItem } from "@/app/api/generate-english/route";
 import { Volume2 } from "lucide-react";
 import { textToSpeech } from "@/lib/textToSpeech";
+import { Score } from "@/app/api/generate-english/route";
 
 interface QuizQuestion {
     type: "sentence" | "meaning";
@@ -16,10 +17,6 @@ interface QuizPageProps {
     patterns: PatternItem[];
     selectedDay: number;
     onNextRandomQuiz: () => void;
-}
-
-interface Score {
-    correct: number;
 }
 
 export default function QuizPage({
