@@ -36,6 +36,7 @@ export default function Home() {
     }, {} as Record<string, number>);
     postCounts.all = allPosts.length;
 
+    // 구조화된 데이터 생성(seo 목적)
     const websiteSchema = generateWebsiteSchema();
     const blogSchema = generateBlogSchema();
 

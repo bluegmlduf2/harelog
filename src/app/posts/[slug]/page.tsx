@@ -12,6 +12,7 @@ interface PostPageProps {
     }>;
 }
 
+// 동적 경로 생성을 위한 정적 파라미터 생성 함수 (nextJs에서 자동으로 호출)
 export async function generateStaticParams() {
     const posts = getAllPosts();
     return posts.map((post) => ({
@@ -19,6 +20,7 @@ export async function generateStaticParams() {
     }));
 }
 
+// 포스트별 메타데이터 생성 함수 (nextJs에서 자동으로 호출)
 export async function generateMetadata({
     params,
 }: PostPageProps): Promise<Metadata> {

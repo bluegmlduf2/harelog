@@ -1,4 +1,4 @@
-"use client";
+"use client"; // 해당 페이지는 서버사이드 렌더링하지 않을 생각이다. 그렇기 때문에 바로 클라이언트 렌더링용 use client 선언
 
 import { useState } from "react";
 
