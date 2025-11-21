@@ -11,7 +11,7 @@ const MODELS = [
     "meta-llama/llama-3.3-70b-instruct:free",
     "qwen/qwen3-coder:free",
     "mistralai/mistral-small-3.2-24b-instruct:free",
-    "deepseek/deepseek-chat-v3.1:free",
+    "x-ai/grok-4.1-fast",
 ];
 
 export async function generatePatternWithFallback(
