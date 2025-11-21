@@ -1,0 +1,53 @@
+{
+  "date": "20251121",
+  "sources": [
+    {
+      "id": "news-uuid-8f4a2b1c-9d3e-4f5g-6h7i-8j9k0l1m2n3o",
+      "title": {
+        "original": "OpenAI Unveils GPT-5 with Advanced Multimodal AI Capabilities",
+        "ko": "OpenAI, 고급 멀티모달 AI 기능 탑재 GPT-5 공개",
+        "ja": "OpenAIが高性能マルチモーダルAI機能を備えたGPT-5を公開",
+        "en": "OpenAI Unveils GPT-5 with Advanced Multimodal AI Capabilities"
+      },
+      "url": "https://techcrunch.com/2025/11/21/openai-gpt5-multimodal-release/",
+      "summary": {
+        "original": "OpenAI has released GPT-5, which integrates text, image, video, and audio processing into a single model, enabling more natural interactions and improved performance on complex tasks as demonstrated in benchmarks.",
+        "ko": "OpenAI는 텍스트, 이미지, 비디오, 오디오 처리를 단일 모델에 통합한 GPT-5를 출시했으며, 벤치마크에서 입증된 바와 같이 복잡한 작업에서 더 자연스러운 상호작용과 향상된 성능을 제공합니다.",
+        "ja": "OpenAIはテキスト、画像、ビデオ、オーディオ処理を単一モデルに統合したGPT-5をリリースし、ベンチマークで実証された通り、より自然なインタラクションと複雑なタスクでの性能向上を実現しています。",
+        "en": "OpenAI has released GPT-5, which integrates text, image, video, and audio processing into a single model, enabling more natural interactions and improved performance on complex tasks as demonstrated in benchmarks."
+      }
+    },
+    {
+      "id": "news-uuid-3e2d1c4b-5a6f-7g8h-9i0j-1k2l3m4n5o6p",
+      "title": {
+        "original": "Apple Launches Vision Pro 2 with Lighter Design and Enhanced Battery Life",
+        "ko": "애플, 더 가벼운 디자인과 향상된 배터리 수명 탑재 Vision Pro 2 출시",
+        "ja": "Appleが軽量デザインと強化されたバッテリー寿命のVision Pro 2を発売",
+        "en": "Apple Launches Vision Pro 2 with Lighter Design and Enhanced Battery Life"
+      },
+      "url": "https://www.theverge.com/2025/11/21/apple-vision-pro-2-launch",
+      "summary": {
+        "original": "Apple announced the second-generation Vision Pro headset, featuring a 30% lighter build, twice the battery life of its predecessor, and upgraded eye-tracking for better immersion in mixed reality environments.",
+        "ko": "애플은 2세대 Vision Pro 헤드셋을 발표했으며, 이전 모델보다 30% 가벼운 무게, 배터리 수명 2배, 혼합 현실 환경에서 더 나은 몰입감을 위한 업그레이드된 아이 트래킹 기능을 갖췄습니다.",
+        "ja": "Appleは第2世代Vision Proヘッドセットを発表し、前モデル比30%軽量化、バッテリー寿命2倍、ミックスドリアリティ環境での没入感向上のためのアップグレードされたアイトラッキング機能を備えています。",
+        "en": "Apple announced the second-generation Vision Pro headset, featuring a 30% lighter build, twice the battery life of its predecessor, and upgraded eye-tracking for better immersion in mixed reality environments."
+      }
+    },
+    {
+      "id": "news-uuid-7p6o5i4u-3y2t-1r9e-8w7q-6a5s4d3f2g1h",
+      "title": {
+        "original": "IBM Demonstrates 1000-Qubit Quantum Processor Surpassing Classical Computers",
+        "ko": "IBM, 고전 컴퓨터 초월 1000큐비트 양자 프로세서 시연",
+        "ja": "IBMが古典コンピューターを上回る1000キュービット量子プロセッサを実証",
+        "en": "IBM Demonstrates 1000-Qubit Quantum Processor Surpassing Classical Computers"
+      },
+      "url": "https://www.wired.com/story/ibm-1000-qubit-quantum-breakthrough-2025/",
+      "summary": {
+        "original": "IBM revealed a 1000-qubit quantum processor that solved a specific simulation problem faster than the world's top supercomputers, achieving a key milestone in scalable quantum computing with reduced error rates.",
+        "ko": "IBM은 세계 최고 슈퍼컴퓨터보다 특정 시뮬레이션 문제를 더 빠르게 해결한 1000큐비트 양자 프로세서를 공개했으며, 오류율 감소로 확장 가능한 양자 컴퓨팅의 중요한 이정표를 달성했습니다.",
+        "ja": "IBMは世界最高のスーパーコンピューターよりも特定のシミュレーション問題を高速に解決した1000キュービット量子プロセッサを公開し、誤差率を低減してスケーラブルな量子コンピューティングの重要なマイルストーンを達成しました。",
+        "en": "IBM revealed a 1000-qubit quantum processor that solved a specific simulation problem faster than the world's top supercomputers, achieving a key milestone in scalable quantum computing with reduced error rates."
+      }
+    }
+  ]
+}
