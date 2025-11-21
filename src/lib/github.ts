@@ -220,8 +220,13 @@ export async function uploadImageToGitHub(
  */
 export async function uploadJsonToGitHub({
     json,
+    path,
 }: {
     json: unknown;
+    path: {
+        name: "pattern" | "news";
+        message: "영어 패턴" | "뉴스";
+    };
 }): Promise<void> {
     const content = JSON.stringify(json, null, 2);
     const filename = `${new Date()
@@ -231,9 +236,9 @@ export async function uploadJsonToGitHub({
 
     // uploadFileToGitHub이 base64 인코딩 처리를 해주므로 isBase64=false로 전달
     await uploadFileToGitHub({
-        path: `public/pattern/${filename}`,
+        path: `public/${path.name}/${filename}`,
         content,
-        message: `영어 패턴 JSON 추가: ${filename}`,
+        message: `${path.message} JSON 추가: ${filename}`,
         isBase64: false,
     });
 }

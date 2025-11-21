@@ -139,6 +139,7 @@ export async function POST(request: NextRequest) {
 
             await uploadJsonToGitHub({
                 json: patternData,
+                path: { name: "pattern", message: "영어 패턴" },
             });
 
             return NextResponse.json({

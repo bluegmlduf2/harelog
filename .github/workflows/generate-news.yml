@@ -1,4 +1,4 @@
-name: Daily API Call (PATTERN)
+name: Daily API Call (NEWS)
 
 on:
     schedule:
@@ -10,10 +10,10 @@ jobs:
     call-api:
         runs-on: ubuntu-latest
         steps:
-            - name: Call Vercel daily API (PATTERN)
+            - name: Call Vercel daily API (NEWS)
               env:
                   # 해당 API 엔드포인트와 토큰 설정필요 (API_URL은 직접 변경가능하고 TOKEN은 깃허브 액션의 시크릿키 설정및 사용)
-                  API_URL: https://api.wallylog.com/api/generate-english
+                  API_URL: https://api.wallylog.com/api/generate-news
                   TOKEN: ${{ secrets.DAILY_API_TOKEN }}
               run: |
                   # POST 요청으로 호출 (응답 확인 포함)

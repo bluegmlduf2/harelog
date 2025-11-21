@@ -174,6 +174,13 @@ export default function Header() {
                             >
                                 03. 영어 패턴 학습
                             </Link>
+                            <Link
+                                href="/news"
+                                className="text-gray-700 hover:text-blue-600 transition-colors py-2 px-4 rounded-md hover:bg-gray-50"
+                                onClick={() => setIsMenuOpen(false)}
+                            >
+                                04. 오늘의 IT 뉴스
+                            </Link>
                         </nav>
                     </div>
                 </div>
