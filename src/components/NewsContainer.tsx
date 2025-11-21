@@ -60,6 +60,7 @@ export default function NewsContainer() {
         }
     };
 
+    // TODO 여기 수정해야할듯 일단 저장
     const loadMoreDates = () => {
         if (displayedDates.length >= allDates.length) return;
 
@@ -68,7 +69,8 @@ export default function NewsContainer() {
         setTimeout(() => {
             const nextDate = allDates[displayedDates.length];
             if (nextDate) {
-                setDisplayedDates([...displayedDates, nextDate]);
+                fetchData(nextDate);
+                // setDisplayedDates([...displayedDates, nextDate]);
             }
             setLoading(false);
         }, 300);
