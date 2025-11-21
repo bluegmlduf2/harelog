@@ -28,8 +28,6 @@ export default function CodingTestPage() {
     const [selectedOption, setSelectedOption] = useState<number | null>(null);
     const [showResult, setShowResult] = useState(false);
     const [loading, setLoading] = useState(false);
-    const [score, setScore] = useState(0);
-    const [totalQuestions, setTotalQuestions] = useState(0);
     const [error, setError] = useState<string | null>(null);
 
     const generateQuiz = async () => {
@@ -79,19 +77,6 @@ export default function CodingTestPage() {
         if (selectedOption === null) return;
 
         setShowResult(true);
-        setTotalQuestions((prev) => prev + 1);
-
-        const selectedOptionData = currentQuiz?.options.find(
-            (opt) => opt.id === selectedOption
-        );
-        if (selectedOptionData?.isCorrect) {
-            setScore((prev) => prev + 1);
-        }
-    };
-
-    const nextQuestion = () => {
-        setError(null);
-        generateQuiz();
     };
 
     return (
@@ -232,22 +217,6 @@ export default function CodingTestPage() {
 
                 {currentQuiz && (
                     <div className="space-y-6">
-                        {/* 점수 표시 */}
-                        <div className="bg-gray-100 rounded-lg p-4 text-center">
-                            <span className="text-lg font-medium">
-                                점수: {score} / {totalQuestions}
-                                {totalQuestions > 0 && (
-                                    <span className="ml-2 text-sm text-gray-600">
-                                        (
-                                        {Math.round(
-                                            (score / totalQuestions) * 100
-                                        )}
-                                        %)
-                                    </span>
-                                )}
-                            </span>
-                        </div>
-
                         {/* 코드 블록 */}
                         <div className="bg-gray-900 rounded-lg p-4 overflow-x-auto">
                             <pre className="text-green-400 text-sm">
@@ -337,16 +306,8 @@ export default function CodingTestPage() {
                             ) : (
                                 <>
                                     <button
-                                        onClick={nextQuestion}
-                                        className="flex-1 py-3 bg-blue-500 text-white rounded-lg hover:bg-blue-600 font-medium"
-                                    >
-                                        다음 문제
-                                    </button>
-                                    <button
                                         onClick={() => {
                                             setCurrentQuiz(null);
-                                            setScore(0);
-                                            setTotalQuestions(0);
                                             setError(null);
                                         }}
                                         className="flex-1 py-3 bg-gray-500 text-white rounded-lg hover:bg-gray-600 font-medium"
