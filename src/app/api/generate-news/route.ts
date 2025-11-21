@@ -162,7 +162,7 @@ Generate JSON data according to the following instructions:
 Example output format:
 
 {
-  "date": "YYYYMMDD",
+  "date": "YYYYMMDD (today's date)",
   "sources": [
     {
       "id": "random_unique_id_1",
