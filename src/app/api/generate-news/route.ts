@@ -145,24 +145,29 @@ export async function POST(request: NextRequest) {
 
 // 영어 문장 뉴스 생성 프롬프트
 function generateNewsPrompt() {
+    const today = new Date();
+    const YYYY = today.getFullYear();
+    const MM = String(today.getMonth() + 1).padStart(2, "0");
+    const DD = String(today.getDate()).padStart(2, "0");
+    const formattedDate = `${YYYY}${MM}${DD}`; // YYYYMMDD
+
     return `
 Generate JSON data according to the following instructions:
 
-1. Fetch 3 trustworthy IT news articles for today.
+1. Fetch 3 trustworthy IT news articles for ${formattedDate}.
 2. Include the original title and URL for each news article.
 3. Put an AI-generated summary in 'summary.original'.
 4. Translate both the title and summary into Korean (ko), Japanese (ja), and English (en).
 5. Generate a random ID for each news item.
-6. Set "date" to today's date in YYYYMMDD format.
-7. Follow the JSON structure exactly and do not leave any fields empty.
-8. If any field is empty or invalid, repeat until correct values are generated.
-9. Do not escape Unicode characters in Korean translations.
-10. Output JSON data only, without unnecessary sentences or explanations.
+6. Follow the JSON structure exactly and do not leave any fields empty.
+7. If any field is empty or invalid, repeat until correct values are generated.
+8. Do not escape Unicode characters in Korean translations.
+9. Output JSON data only, without unnecessary sentences or explanations.
 
 Example output format:
 
 {
-  "date": "YYYYMMDD (today's date)",
+  "date": "${formattedDate}",
   "sources": [
     {
       "id": "random_unique_id_1",
