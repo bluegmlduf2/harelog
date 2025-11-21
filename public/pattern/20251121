@@ -1,0 +1,39 @@
+{
+  "day": 13,
+  "patterns": [
+    {
+      "pId": "1",
+      "pattern": "Why don't we [verb phrase]?",
+      "meaning": "우리 ~하는 게 어때? (함께 할 일을 제안할 때)",
+      "examples": [
+        {
+          "eId": "1",
+          "sentence": "Why don't we grab some coffee after work?",
+          "translation": "퇴근 후에 커피 한 잔 하러 가는 거 어때?"
+        },
+        {
+          "eId": "2",
+          "sentence": "Why don't we order pizza for dinner?",
+          "translation": "저녁으로 피자 시키는 거 어때?"
+        }
+      ]
+    },
+    {
+      "pId": "2",
+      "pattern": "Make sure you [verb phrase].",
+      "meaning": "~하는 걸 잊지 마. (확인이나 주의를 주기 위해)",
+      "examples": [
+        {
+          "eId": "1",
+          "sentence": "Make sure you lock the door when you leave.",
+          "translation": "나갈 때 문 잠그는 거 잊지 마."
+        },
+        {
+          "eId": "2",
+          "sentence": "Make sure you charge your phone overnight.",
+          "translation": "밤새 폰 충전하는 거 잊지 마."
+        }
+      ]
+    }
+  ]
+}
